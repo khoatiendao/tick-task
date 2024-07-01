@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{subject}}</title>
+</head>
+
+<body style="margin: 0; box-sizing: border-box;">
+  <div style="width: 100%; background-color: #EEEEEE;">
+    <div style="text-align: center">
+      <img src="cid:logo@image.cid" style="width: 150px; padding-top: 10px">
+    </div>
+    <div style="margin: 0 auto; max-width: 500px; min-width: 320px">
+      <p
+        style="font-size: 14px; line-height: 140%; text-align: left; padding: 7px; font-family: arial, helvetica, sans-serif">
+        Welcome to Tick-Task-Team, {{ name }}!!!
+      </p>
+
+
+      <p
+        style="font-size: 14px; line-height: 140%; text-align: left; padding: 7px; font-family: arial, helvetica, sans-serif">
+        We're sending you this email because you created a Tick-Task-Team account. Click the link below to confirm this email for your account.
+      </p>
+
+      <div style="text-align: center">
+        <a href={{ url }}
+          style="display: inline-block; text-decoration: none; background-color: #abf600; font-size: 15px; font-weight: 700; font-family: arial, helvetica sans-serif; width: 200px; height: 40px; border-radius: 80px;">
+          <span style="line-height: 37.2px">Confirm your email</span>
+        </a>
+      </div>
+
+      <p
+        style="font-size: 14px; line-height: 140%; text-align: left; padding: 7px; font-family: arial, helvetica, sans-serif">
+        Please note that this confirmation link is valid for 10 minutes only. If you don't confirm your email within this time frame, you may need to request a new confirmation link.
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>
