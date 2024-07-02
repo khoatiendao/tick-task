@@ -9,6 +9,7 @@ const {generateUUIDWithCharacter} = require('../utils/generateUUID')
 
 const registerUser = async (req, res) => {
     try {
+        const _id = generateUUIDWithCharacter('US')
         const name = req.body.name
         const email = req.body.email
         const password = req.body.password
@@ -16,7 +17,6 @@ const registerUser = async (req, res) => {
         const phone = req.body.phone
         const address = req.body.address
         const role = req.body.role
-        const _id = generateUUIDWithCharacter('US')
         const checkEmail = await Model.userModel.findOne({ email });
         if (!name || !email || !password || !gender || !phone || !address || !role) {
             return res.status(400).json({ message: 'Please fill all information' })
