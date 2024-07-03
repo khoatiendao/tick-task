@@ -9,6 +9,7 @@ const departmentRoutes = require('./src/routes/departmentRoutes');
 const userRoutes = require('./src/routes/userRoutes');
 const positionRoutes = require('./src/routes/positionRoutes')
 const memberRoutes = require('./src/routes/memberRoutes')
+const boardListRoutes = require('./src/routes/boardListRoutes')
 const {swaggerUI, specsDoc} = require('./src/utils/doc/apiDoc')
 
 app.use(express.json());
@@ -18,8 +19,9 @@ app.use(bodyParser.json());
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specsDoc));
 
 // Api routes
-app.use("/api/v1/board", boardRoutes)
 app.use("/api/v1/department", departmentRoutes)
+app.use("/api/v1/board", boardRoutes)
+app.use("/api/v1/boardList", boardListRoutes)
 app.use("/api/v1/user", userRoutes)
 app.use("/api/v1/position", positionRoutes)
 app.use("/api/v1/member", memberRoutes)

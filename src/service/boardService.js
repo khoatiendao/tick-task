@@ -11,6 +11,11 @@ const broadService = {
         return result;
     },
 
+    async findBoardByIdWithOtherController(board_id) {
+        const result = await Model.boardModel.findById(board_id).exec();
+        return result
+    },
+
     async findBoardAll() {
         const result = await Model.boardModel.find({}).exec();
         return result;
