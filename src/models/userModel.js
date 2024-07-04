@@ -76,6 +76,7 @@ const taskList = mongoose.Schema({
         enum: ['Low', 'Medium', 'High'],
         required: true
     },
+    startdate: Date,
     duedate: Date,
     broadList: {
         type: String,

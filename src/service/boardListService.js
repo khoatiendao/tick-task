@@ -16,6 +16,11 @@ const boardListService = {
         return result
     },
 
+    async getByIdWithOtherController(boardList_id) {
+        const result = await Model.boardListModel.findById(boardList_id).exec();
+        return result;
+    },
+
     async updateById(_id, boardList) {
         const newValues = {
             title: boardList.title,
