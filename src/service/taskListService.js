@@ -16,6 +16,11 @@ const taskListService = {
         return result;
     },
 
+    async getTaskListIdWithOtherController(taskList_id) {
+        const result = await Model.taskListModel.findById(taskList_id).exec();
+        return result;
+    },
+
     async update(_id, taskList) {
         const newValues = {
             title: taskList.title,

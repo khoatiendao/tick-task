@@ -16,6 +16,11 @@ const memberService = {
         return result;
     },
 
+    async getMemberIdWithOtherController(member_id) {
+        const result = await Model.membersModel.findById(member_id).exec();
+        return result;
+    },
+
     async updateMemberById(member) {
         const _id = member._id;
         const newValues = {
