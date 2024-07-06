@@ -15,7 +15,7 @@ const createOneBoardList = async(req, res) => {
         } else if (!board) {
             return res.status(400).json({message: 'Board does not exists'})
         } else {
-            const boardList = {_id: _id, title: title, board_id: board}
+            const boardList = {_id: _id, title: title, board: board}
             const result = await boardListService.create(boardList);
             if(result) {
                 return res.status(201).json({message: 'Create Board List Successfull', boardList: result})
@@ -71,7 +71,7 @@ const updateOneBoardList = async(req, res) => {
         } else {
             const boardList = {
                 title: title,
-                board_id: board
+                board: board
             }
             const result = await boardListService.updateById(_id, boardList);
             if(result) {

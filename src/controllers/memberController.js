@@ -27,9 +27,9 @@ const createOneMember = async(req, res) => {
         } else {
             const member = {
                 _id: _id,
-                email: findEmailUser,
-                position_id: position,
-                department_id: department
+                user: findEmailUser,
+                position: position,
+                department: department
             }
             const result = await memberService.createMember(member);
             if(result) {
@@ -94,9 +94,9 @@ const updateOneMember = async(req, res) => {
             return res.status(400).json({message: 'Department does not exists'})
         } else {
             const member = {
-                email: findEmailUser,
-                position_id: position,
-                department_id: department
+                user: findEmailUser,
+                position: position,
+                department: department
             }
             const result = await memberService.updateMemberById(_id, member);
             if(result) {

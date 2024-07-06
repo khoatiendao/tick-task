@@ -60,4 +60,47 @@ const getAllTaskAssignment = async(req, res) => {
     }
 }
 
-module.exports = {createTaskAssignment, getTaskAssignmentById, getAllTaskAssignment}
+const updateTaskAssignment = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const taskList_id = req.body.taskList_id
+        const member_id = req.body.member_id
+        const taskList = await taskListService.getTaskListIdWithOtherController(taskList_id)
+        const member = await memberService.getMemberIdWithOtherController(member_id)
+        if(!taskList_id || !member_id) {
+            return res.status(400).json({message: 'Please fill all information'})
+        } else if(!taskList) {
+            return res.status(400).json({message: 'Task list does not exists'})
+        } else if(!member) {
+            return res.status(400).json({message: 'Member does not exists'})
+        } else {
+            const taskAssignment = {taskList_id: taskList, member_id: member}
+            const result = await taskAssignmentService.update(_id, taskAssignment)
+            if(result) {
+                return res.status(200).json({message: 'Update task assignment successfull', taskAssignment: result})
+            } else {
+                return res.status(400).json({message: 'Update task assignment failed'})
+            }
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+const deleteTaskAssignment = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const result = await taskAssignmentService.delete(_id)
+        if(result) {
+            return res.status(200).json({message: 'Delete task assignment successfull'})
+        } else {
+            return res.status(400).json({message: 'Delete task assignment failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+module.exports = {createTaskAssignment, getTaskAssignmentById, getAllTaskAssignment, updateTaskAssignment, deleteTaskAssignment}

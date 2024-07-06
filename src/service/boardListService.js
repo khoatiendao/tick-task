@@ -24,7 +24,7 @@ const boardListService = {
     async updateById(_id, boardList) {
         const newValues = {
             title: boardList.title,
-            board: boardList.board_id
+            board: boardList.board
         }
         const result = await Model.boardListModel.findByIdAndUpdate(_id, newValues, {new: true})
         return result

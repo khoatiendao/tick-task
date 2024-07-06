@@ -25,8 +25,8 @@ const memberService = {
         const _id = member._id;
         const newValues = {
             user: member.email,
-            position: member.position_id,
-            department: member.department_id
+            position: member.position,
+            department: member.department
         }
         const result = await Model.membersModel.findByIdAndUpdate(_id, newValues, {new: true})
         return result;
