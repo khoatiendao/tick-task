@@ -126,4 +126,33 @@ const deleteOneMember = async(req, res) => {
     }
 }
 
-module.exports = {createOneMember, getOneMember, getAllMember, updateOneMember, deleteOneMember}
+const getAllMemberWithUserAndPositionAndDepartment = async(req, res) => {
+    try {
+        const result = await memberService.getAllWithUserAndPositionAndDepartment();
+        if(result) {
+            return res.status(200).json({message: 'Get all member with user and position and department successfull', member: result})
+        }else {
+            return res.status(400).json({message: 'Get all member with user and position and department failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+const getIdMemberWithUserAndPositionAndDepartment = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const result = await memberService.getIdWithUserAndPositionAndDepartment(_id)
+        if(result) {
+            return res.status(200).json({message: 'Get one member with user and position and department successfull', member: result})
+        }else {
+            return res.status(400).json({message: 'Get one member with user and position and department failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+module.exports = {createOneMember, getOneMember, getAllMember, updateOneMember, deleteOneMember, getAllMemberWithUserAndPositionAndDepartment, getIdMemberWithUserAndPositionAndDepartment}

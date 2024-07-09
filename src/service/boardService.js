@@ -11,6 +11,16 @@ const broadService = {
         return result;
     },
 
+    async findBoardByIdWithDepartment(_id) {
+        const result = await Model.boardModel.findById(_id).populate('department')
+        return result;
+    },
+
+    async findBoardWithDepartment() {
+        const result = await Model.boardModel.find({}).populate('department');
+        return result;
+    },
+
     async findBoardByIdWithOtherController(board_id) {
         const result = await Model.boardModel.findById(board_id).exec();
         return result

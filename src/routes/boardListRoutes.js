@@ -2,7 +2,7 @@ const express = require('express')
 const routes = express.Router()
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
-const {createOneBoardList, getOneBoardList, getAllBoardList, updateOneBoardList, deleteOneBoardList} = require('../controllers/boardListController')
+const {createOneBoardList, getOneBoardList, getAllBoardList, updateOneBoardList, deleteOneBoardList, getAllBoardListWithBoardAndDepartment, getIdBoardListWithBoardAndDepartment} = require('../controllers/boardListController')
 
 
 /** POST Methods */
@@ -39,6 +39,10 @@ const {createOneBoardList, getOneBoardList, getAllBoardList, updateOneBoardList,
  *        description: Server Error
  */
 routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createOneBoardList)
+
+routes.get("/board/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllBoardListWithBoardAndDepartment)
+
+routes.get("/:_id/board/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdBoardListWithBoardAndDepartment)
 
 /** GET Methods */
 /**

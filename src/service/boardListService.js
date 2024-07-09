@@ -21,6 +21,16 @@ const boardListService = {
         return result;
     },
 
+    async getAllWithBoardAndDepartment() {
+        const result = await Model.boardListModel.find({}).populate({path: 'board', populate: {path: 'department'}})
+        return result
+    },
+
+    async getIdWithBoardAndDepartment(_id) {
+        const result = await Model.boardListModel.findById(_id).populate({path: 'board', populate: {path: 'department'}})
+        return result;
+    },
+
     async updateById(_id, boardList) {
         const newValues = {
             title: boardList.title,

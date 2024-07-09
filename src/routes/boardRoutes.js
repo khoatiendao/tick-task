@@ -1,9 +1,16 @@
-const express = require('express')
-const routes = express.Router()
-const {postBoard, getBoardById, getAllBoard, deleteBoardById, updateBoardById} = require('../controllers/boardController')
+const express = require('express');
+const routes = express.Router();
+const {
+  postBoard,
+  getBoardById,
+  getAllBoard,
+  deleteBoardById,
+  updateBoardById,
+  getAllBoardWithDepartment,
+  getBoardByIdWithDepartment,
+} = require('../controllers/boardController');
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
-
 
 /** POST Methods */
 /**
@@ -38,7 +45,21 @@ const { authorizeRole } = require('../config/configAuthRole');
  *      500:
  *        description: Server Error
  */
-routes.post("/createBoard", configJwt.checkTokenVerify, authorizeRole('admin'), postBoard)
+routes.post(
+  '/createBoard',
+  configJwt.checkTokenVerify,
+  authorizeRole('admin'),
+  postBoard
+);
+
+routes.get(
+  '/department',
+  configJwt.checkTokenVerify,
+  authorizeRole('admin', 'user'),
+  getAllBoardWithDepartment
+);
+
+routes.get("/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getBoardByIdWithDepartment)
 
 /** GET Methods */
 /**
@@ -62,7 +83,12 @@ routes.post("/createBoard", configJwt.checkTokenVerify, authorizeRole('admin'), 
  *      500:
  *        description: Server Error
  */
-routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getBoardById)
+routes.get(
+  '/:_id',
+  configJwt.checkTokenVerify,
+  authorizeRole('admin', 'user'),
+  getBoardById
+);
 
 /** GET Methods */
 /**
@@ -82,7 +108,12 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *      500:
  *        description: Server Error
  */
-routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllBoard)
+routes.get(
+  '/',
+  configJwt.checkTokenVerify,
+  authorizeRole('admin', 'user'),
+  getAllBoard
+);
 
 /** PUT Methods */
 /**
@@ -119,7 +150,12 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *      500:
  *        description: Server Error
  */
-routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateBoardById)
+routes.put(
+  '/:_id',
+  configJwt.checkTokenVerify,
+  authorizeRole('admin'),
+  updateBoardById
+);
 
 /** DELETE Methods */
 /**
@@ -143,6 +179,11 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateBo
  *      500:
  *        description: Server Error
  */
-routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteBoardById)
+routes.delete(
+  '/:_id',
+  configJwt.checkTokenVerify,
+  authorizeRole('admin'),
+  deleteBoardById
+);
 
-module.exports = routes
+module.exports = routes;

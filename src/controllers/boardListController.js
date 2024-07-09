@@ -101,4 +101,33 @@ const deleteOneBoardList = async(req, res) => {
     }
 }
 
-module.exports = {createOneBoardList, getOneBoardList, getAllBoardList, updateOneBoardList, deleteOneBoardList}
+const getAllBoardListWithBoardAndDepartment = async(req, res) => {
+    try {
+        const result = await boardListService.getAllWithBoardAndDepartment();
+        if(result) {
+            return res.status(200).json({message: 'Get all board list with board and department successfull', boardList: result})
+        }else {
+            return res.status(400).json({message: 'Get all board list with board and department failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+const getIdBoardListWithBoardAndDepartment = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const result = await boardListService.getIdWithBoardAndDepartment(_id);
+        if(result) {
+            return res.status(200).json({message: 'Get one board list with board and department successfull', boardList: result})
+        }else {
+            return res.status(400).json({message: 'Get one board list with board and department failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+module.exports = {createOneBoardList, getOneBoardList, getAllBoardList, updateOneBoardList, deleteOneBoardList, getAllBoardListWithBoardAndDepartment, getIdBoardListWithBoardAndDepartment}

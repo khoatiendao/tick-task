@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('strictPopulate', false)
 
 const department = mongoose.Schema({
     _id: {

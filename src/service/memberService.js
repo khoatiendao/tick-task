@@ -21,6 +21,16 @@ const memberService = {
         return result;
     },
 
+    async getAllWithUserAndPositionAndDepartment() {
+        const result = await Model.membersModel.find({}).populate('user').populate('position').populate('department')
+        return result;
+    },
+
+    async getIdWithUserAndPositionAndDepartment(_id) {
+        const result = await Model.membersModel.findById(_id).populate({path: 'user', populate: {path: 'position',  populate: {path: 'department'}}})
+        return result;
+    },
+
     async updateMemberById(member) {
         const _id = member._id;
         const newValues = {

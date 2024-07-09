@@ -96,4 +96,33 @@ const updateBoardById = async(req, res) => {
     }
 }
 
-module.exports = {postBoard, getBoardById, getAllBoard, deleteBoardById, updateBoardById}
+const getAllBoardWithDepartment = async(req, res) => {
+    try {
+        const result = await boardService.findBoardWithDepartment();
+        if(result) {
+            return res.status(200).json({message: 'Get all board with department successfull', board: result})
+        } else {
+            return res.status(400).json({message: 'Get all board with department failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+const getBoardByIdWithDepartment = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const result = await boardService.findBoardByIdWithDepartment(_id);
+        if(result) {
+            return res.status(200).json({message: 'Get one board with department successfull', board: result})
+        } else {
+            return res.status(400).json({message: 'Get one board with department failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+module.exports = {postBoard, getBoardById, getAllBoard, deleteBoardById, updateBoardById, getAllBoardWithDepartment, getBoardByIdWithDepartment}
