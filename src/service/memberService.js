@@ -27,7 +27,7 @@ const memberService = {
     },
 
     async getIdWithUserAndPositionAndDepartment(_id) {
-        const result = await Model.membersModel.findById(_id).populate({path: 'user', populate: {path: 'position',  populate: {path: 'department'}}})
+        const result = await Model.membersModel.findById(_id).populate('user').populate('position').populate('department')
         return result;
     },
 
