@@ -21,9 +21,13 @@ const taskListService = {
         return result;
     },
 
-    async getTaskWithBoardListId(boardList) {
-        const boardList_id = boardList._id
-        const result = await Model.taskListModel.find({boardList: boardList_id}).populate('boardList')
+    async getTaskWithBoardListId() {
+        const result = await Model.taskListModel.find({}).populate('boardList').exec()
+        return result
+    },
+
+    async getTaskWithBoardListIdParam(boardList_id) {
+        const result = await Model.taskListModel.find({boardList: boardList_id}).exec()
         return result
     },
 

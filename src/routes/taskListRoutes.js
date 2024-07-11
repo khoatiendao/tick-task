@@ -2,7 +2,14 @@ const express = require('express')
 const routes = express.Router()
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
-const {createOneTaskList, getOneTaskList, getAllTaskList, updateOneTaskList, deleteTaskList, getAllTaskListWithBoardList} = require('../controllers/taskListController')
+const {
+    createOneTaskList, 
+    getOneTaskList, 
+    getAllTaskList, 
+    updateOneTaskList, 
+    deleteTaskList, 
+    getAllTaskListWithBoardList,
+    getAllTaskListWithBoardListParam} = require('../controllers/taskListController')
 
 
 /** POST Methods */
@@ -54,7 +61,9 @@ const {createOneTaskList, getOneTaskList, getAllTaskList, updateOneTaskList, del
  */
 routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createOneTaskList)
 
-routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole('user','admin'), getAllTaskListWithBoardList)
+routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('user','admin'), getAllTaskListWithBoardList)
+
+routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole('user','admin'), getAllTaskListWithBoardListParam)
 
 /** GET Methods */
 /**

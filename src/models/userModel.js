@@ -79,7 +79,7 @@ const taskList = mongoose.Schema({
     },
     startdate: Date,
     duedate: Date,
-    broadList: {
+    boardList: {
         type: String,
         ref: 'boardList'
     }
