@@ -81,7 +81,7 @@ const updateOneMember = async(req, res) => {
         const department_id = req.body.department_id
         const findEmailUser = await userService.findEmailUser(email);
         const position = await positionService.getPositionByMember(position_id);
-        const department = await departmentService.getDepartmentByIdWithMember(department_id);
+        const department = await departmentService.getDepartmentByIdWithOrtherController(department_id);
         if(!email || !position_id || !department_id) {
             return res.status(400).json({message: 'Please fill all information'})
         } else if(!validator.isEmail(email)) {
@@ -155,4 +155,43 @@ const getIdMemberWithUserAndPositionAndDepartment = async(req, res) => {
     }
 }
 
-module.exports = {createOneMember, getOneMember, getAllMember, updateOneMember, deleteOneMember, getAllMemberWithUserAndPositionAndDepartment, getIdMemberWithUserAndPositionAndDepartment}
+const getAllMemberWithEmailAndNamePositionAndDepartment = async(req, res) => {
+    try {
+        const result = await memberService.getAllEmailAndNamePositionAndNameDepartment();
+        if(result) {
+            return res.status(200).json({message: 'Get all item successfull', member: result})
+        }else {
+            return res.status(200).json({message: 'Get all item failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+const getIdMemberWithEmailAndNamePositionAndDepartment = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const result = await memberService.getIdEmailAndNamePositionAndNameDepartment(_id);
+        if(result) {
+            return res.status(200).json({message: 'Get id item successfull', member: result})
+        }else {
+            return res.status(200).json({message: 'Get id item failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+module.exports = {
+    createOneMember, 
+    getOneMember, 
+    getAllMember, 
+    updateOneMember, 
+    deleteOneMember, 
+    getAllMemberWithUserAndPositionAndDepartment, 
+    getIdMemberWithUserAndPositionAndDepartment,
+    getAllMemberWithEmailAndNamePositionAndDepartment,
+    getIdMemberWithEmailAndNamePositionAndDepartment
+}

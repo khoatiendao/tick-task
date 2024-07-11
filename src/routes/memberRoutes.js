@@ -2,7 +2,17 @@ const express = require('express')
 const routes = express.Router()
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
-const {createOneMember, getOneMember, getAllMember, updateOneMember, deleteOneMember, getAllMemberWithUserAndPositionAndDepartment, getIdMemberWithUserAndPositionAndDepartment} = require('../controllers/memberController')
+const {
+    createOneMember, 
+    getOneMember, 
+    getAllMember, 
+    updateOneMember, 
+    deleteOneMember, 
+    getAllMemberWithUserAndPositionAndDepartment, 
+    getIdMemberWithUserAndPositionAndDepartment,
+    getAllMemberWithEmailAndNamePositionAndDepartment,
+    getIdMemberWithEmailAndNamePositionAndDepartment
+} = require('../controllers/memberController')
 
 /** POST Methods */
 /**
@@ -45,6 +55,10 @@ routes.post("/createMember", configJwt.checkTokenVerify, authorizeRole('admin'),
 routes.get("/user/position/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllMemberWithUserAndPositionAndDepartment)
 
 routes.get("/:_id/user/position/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdMemberWithUserAndPositionAndDepartment)
+
+routes.get("/email/name", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllMemberWithEmailAndNamePositionAndDepartment)
+
+routes.get("/:_id/email/name", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdMemberWithEmailAndNamePositionAndDepartment)
 
 /** GET Methods */
 /**

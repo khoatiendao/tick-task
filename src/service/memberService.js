@@ -31,8 +31,23 @@ const memberService = {
         return result;
     },
 
-    async updateMemberById(member) {
-        const _id = member._id;
+    async getAllEmailAndNamePositionAndNameDepartment() {
+        const result = await Model.membersModel.find({})
+        .populate({path: 'user', select: 'email'})
+        .populate({path: 'position', select: 'name'})
+        .populate({path: 'department', select: 'name'});
+        return result;
+    },
+
+    async getIdEmailAndNamePositionAndNameDepartment(_id) {
+        const result = await Model.membersModel.findById(_id)
+        .populate({path: 'user', select: 'email'})
+        .populate({path: 'position', select: 'name'})
+        .populate({path: 'department', select: 'name'});
+        return result;
+    },
+
+    async updateMemberById(_id, member) {
         const newValues = {
             user: member.email,
             position: member.position,
