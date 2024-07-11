@@ -21,6 +21,12 @@ const taskListService = {
         return result;
     },
 
+    async getTaskWithBoardListId(boardList) {
+        const boardList_id = boardList._id
+        const result = await Model.taskListModel.find({boardList: boardList_id}).populate('boardList')
+        return result
+    },
+
     async update(_id, taskList) {
         const newValues = {
             title: taskList.title,

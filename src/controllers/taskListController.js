@@ -25,8 +25,8 @@ const createOneTaskList = async(req, res) => {
                 status: status, 
                 priority: priority, 
                 startdate: startdate, 
-                duedate: duedate, 
-                boardList_id: boardList
+                duedate: duedate,
+                broadList: boardList
             }
             const result = await taskListService.createOne(taskList);
             if(result) {
@@ -93,7 +93,7 @@ const updateOneTaskList = async(req, res) => {
                 priority: priority,
                 startdate: startdate,
                 duedate: duedate,
-                boardList_id: boardList
+                boardList: boardList
             }
             const result = await taskListService.update(_id, taskList)
             if(result) {
@@ -123,4 +123,25 @@ const deleteTaskList = async(req, res) => {
     }
 }
 
-module.exports = {createOneTaskList, getOneTaskList, getAllTaskList, updateOneTaskList, deleteTaskList}
+const getAllTaskListWithBoardList = async(req, res) => {
+    try {
+        const boardList_id = req.params.boardList_id
+        const boardList = await boardListService.getByIdWithOtherController(boardList_id)
+        console.log(boardList);
+        if(!boardList) {
+            return res.status(400).json({message: 'Board List does not exists'})
+        }else {
+            const result = await taskListService.getTaskWithBoardListId(boardList)
+            if(result) {
+                return res.status(200).json({message: 'Get item successfull', boardList: result})
+            } else {
+                return res.status(200).json({message: 'Get item failed'})
+            }
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+module.exports = {createOneTaskList, getOneTaskList, getAllTaskList, updateOneTaskList, deleteTaskList, getAllTaskListWithBoardList}

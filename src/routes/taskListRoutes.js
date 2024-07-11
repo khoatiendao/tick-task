@@ -2,7 +2,7 @@ const express = require('express')
 const routes = express.Router()
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
-const {createOneTaskList, getOneTaskList, getAllTaskList, updateOneTaskList, deleteTaskList} = require('../controllers/taskListController')
+const {createOneTaskList, getOneTaskList, getAllTaskList, updateOneTaskList, deleteTaskList, getAllTaskListWithBoardList} = require('../controllers/taskListController')
 
 
 /** POST Methods */
@@ -53,6 +53,8 @@ const {createOneTaskList, getOneTaskList, getAllTaskList, updateOneTaskList, del
  *        description: Server Error
  */
 routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createOneTaskList)
+
+routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole('user','admin'), getAllTaskListWithBoardList)
 
 /** GET Methods */
 /**
