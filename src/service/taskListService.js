@@ -16,9 +16,17 @@ const taskListService = {
         return result;
     },
 
-    async getTaskListIdWithOtherController(taskList_id) {
-        const result = await Model.taskListModel.findById(taskList_id).exec();
-        return result;
+    async getTaskListIdWithOtherController(taskList_array) {
+        const taskList_Valid_Id = []
+        for(let i = 0; i < taskList_array.length; i++) {
+            const taskId = taskList_array[i]
+            const result = await Model.taskListModel.findById(taskId).exec();
+            if(!result) {
+                throw new error ('Somthing wrong with task list id')
+            }
+            taskList_Valid_Id.push(result)
+        }   
+        return taskList_Valid_Id;
     },
 
     async getTaskWithBoardListId() {

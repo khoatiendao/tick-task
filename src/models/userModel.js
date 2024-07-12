@@ -129,10 +129,10 @@ const taskAssignment = mongoose.Schema({
         type: String,
         required: true
     },
-    taskList: {
+    taskList: [{
         type: String,
         ref: 'taskList'
-    },
+    }],
     member: {
         type: String,
         ref: 'member'

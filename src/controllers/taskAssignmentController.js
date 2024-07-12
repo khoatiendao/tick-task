@@ -7,8 +7,9 @@ const createTaskAssignment = async(req, res) => {
     try {
         const _id = generateUUIDWithCharacter('TA')
         const taskList_id = req.body.taskList_id
+        const taskList_array = Array.isArray(taskList_id) ? taskList_id : [taskList_id]
         const member_id = req.body.member_id
-        const taskList = await taskListService.getTaskListIdWithOtherController(taskList_id);
+        const taskList = await taskListService.getTaskListIdWithOtherController(taskList_array);
         const member = await memberService.getMemberIdWithOtherController(member_id);
         if(!taskList_id || !member_id) {
             return res.status(400).json({message: 'Please fill all information'})
@@ -17,7 +18,7 @@ const createTaskAssignment = async(req, res) => {
         } else if(!member) {
             return res.status(400).json({message: 'Member does not exists'})
         } else {
-            const taskAssignment = {_id: _id, taskList_id: taskList, member_id: member}
+            const taskAssignment = {_id: _id, taskList: taskList, member: member}
             const result = await taskAssignmentService.createOne(taskAssignment);
             if(result) {
                 return res.status(201).json({message: 'Create task assignment successfull', taskAssignment: result})
@@ -65,7 +66,8 @@ const updateTaskAssignment = async(req, res) => {
         const _id = req.params._id
         const taskList_id = req.body.taskList_id
         const member_id = req.body.member_id
-        const taskList = await taskListService.getTaskListIdWithOtherController(taskList_id)
+        const taskList_array = Array.isArray(taskList_id) ? taskList_id : [taskList_id]
+        const taskList = await taskListService.getTaskListIdWithOtherController(taskList_array)
         const member = await memberService.getMemberIdWithOtherController(member_id)
         if(!taskList_id || !member_id) {
             return res.status(400).json({message: 'Please fill all information'})
@@ -74,7 +76,7 @@ const updateTaskAssignment = async(req, res) => {
         } else if(!member) {
             return res.status(400).json({message: 'Member does not exists'})
         } else {
-            const taskAssignment = {taskList_id: taskList, member_id: member}
+            const taskAssignment = {taskList: taskList, member: member}
             const result = await taskAssignmentService.update(_id, taskAssignment)
             if(result) {
                 return res.status(200).json({message: 'Update task assignment successfull', taskAssignment: result})
@@ -103,4 +105,42 @@ const deleteTaskAssignment = async(req, res) => {
     }
 }
 
-module.exports = {createTaskAssignment, getTaskAssignmentById, getAllTaskAssignment, updateTaskAssignment, deleteTaskAssignment}
+const deleteOneTaskListWithTaskAssignment = async(req, res) => {
+    try {
+        const member_id = req.params.member_id
+        const taskList_id = req.params.taskList_id
+        const result = await taskAssignmentService.removeTaskList(member_id, taskList_id)
+        if(result.errorMember && result.errorTaskList) {
+            return res.status(400).json({message: 'Please provide task list ID'})
+        } else {
+            return res.status(200).json({message: 'Delete task list successfull', taskAssignment: result})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+const findAllTaskListWithMemberId = async(req, res) => {
+    try {
+        const member_id = req.params.member_id
+        const result = await taskAssignmentService.getAllTaskListWithMemberId(member_id)
+        if(result) {
+            return res.status(200).json({message: 'Get item successfull', taskAssignment: result})
+        } else {
+            return res.status(400).json({message: 'Get item failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+module.exports = {
+    createTaskAssignment, 
+    getTaskAssignmentById, 
+    getAllTaskAssignment, 
+    updateTaskAssignment, 
+    deleteTaskAssignment, 
+    findAllTaskListWithMemberId,
+    deleteOneTaskListWithTaskAssignment}

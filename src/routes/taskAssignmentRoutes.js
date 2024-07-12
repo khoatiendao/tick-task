@@ -2,7 +2,14 @@ const express = require('express')
 const routes = express.Router()
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
-const {createTaskAssignment, getTaskAssignmentById, getAllTaskAssignment, updateTaskAssignment, deleteTaskAssignment} = require('../controllers/taskAssignmentController')
+const {
+    createTaskAssignment, 
+    getTaskAssignmentById, 
+    getAllTaskAssignment, 
+    updateTaskAssignment, 
+    deleteTaskAssignment,
+    findAllTaskListWithMemberId,
+    deleteOneTaskListWithTaskAssignment} = require('../controllers/taskAssignmentController')
 
 /** POST Methods */
 /**
@@ -37,6 +44,8 @@ const {createTaskAssignment, getTaskAssignmentById, getAllTaskAssignment, update
  *        description: Server Error
  */
 routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createTaskAssignment)
+
+routes.get("/member/:member_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), findAllTaskListWithMemberId)
 
 /** GET Methods */
 /**
@@ -143,6 +152,8 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateTa
  *        description: Server Error
  */
 routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteTaskAssignment)
+
+routes.delete("/delete-taskList/:member_id/:taskList_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteOneTaskListWithTaskAssignment)
 
 
 module.exports = routes;
