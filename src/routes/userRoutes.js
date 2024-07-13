@@ -5,6 +5,10 @@ const {
   emailVerifyUser,
   loginUser,
   checkToken,
+  getAllUser, 
+  getIdUser, 
+  updateProfileUser, 
+  updateRoleForUser
 } = require('../controllers/userController');
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
@@ -114,6 +118,14 @@ routes.post('/register', registerUser);
  *        description: Server Error
  */
 routes.post('/login', loginUser);
+
+routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getAllUser)
+
+routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdUser)
+
+routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateProfileUser)
+
+routes.put("/role/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateRoleForUser)
 
 /** GET Methods */
 /**

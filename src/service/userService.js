@@ -6,6 +6,11 @@ const userService = {
         return result;
     },
 
+    async findAll() {
+        const result = await Model.userModel.find({}).exec()
+        return result;
+    },
+
     async findEmailUser(email) {
         const result = await Model.userModel.findOne({email})
         return result;
@@ -14,13 +19,11 @@ const userService = {
     async update(_id, user) {
         const newValues = {
             name: user.name,
-            email: user.email,
-            password: user.password,
             gender: user.gender,
             phone: user.phone,
             address: user.address
         }
-        const result = await Model.userModel.findByIdAndUpdate(_id, newValues, {new: true})
+        const result = await Model.userModel.findByIdAndUpdate(_id, newValues, {new: true}).select('-email -password -role -active')
         return result;
     },
 
@@ -28,7 +31,7 @@ const userService = {
         const newValues = {
             role: user.role
         }
-        const result = await Model.userModel.findByIdAndUpdate(_id, newValues, {new: true})
+        const result = await Model.userModel.findByIdAndUpdate(_id, newValues, {new: true}).select('-email -password -name -gender -phone -address -active')
         return result;
     }
 

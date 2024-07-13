@@ -49,6 +49,35 @@ const registerUser = async (req, res) => {
     }
 }
 
+const getAllUser = async(req, res) => {
+    try {
+        const result = await userService.findAll();
+        if(result) {
+            return res.status(200).json({message: 'Get all user successfull', user: result})
+        } else {
+            return res.status(400).json({message: 'Get all user failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+const getIdUser = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const result = await userService.findUserById(_id);
+        if(result) {
+            return res.status(200).json({message: 'Get user sucessfull', user: result})
+        } else {
+            return res.status(400).json({message: 'Get user failed'})
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
 const emailVerifyUser = async (req, res) => {
     const email = req.decoded.email;
     try {
@@ -111,4 +140,49 @@ const checkToken = async(req, res) => {
 
 }
 
-module.exports = { registerUser, emailVerifyUser, loginUser, checkToken }
+const updateProfileUser = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const name = req.body.name
+        const gender = req.body.gender
+        const phone = req.body.phone
+        const address = req.body.address
+        if(!name || !gender || !phone || !address) {
+            return res.status(400).json({message: 'Please fill all information'})
+        } else {
+            const user = {name: name, gender: gender, phone: phone, address: address}
+            const result = await userService.update(_id, user)
+            if(result) {
+                return res.status(200).json({message: 'Update profile successfull', user: result})
+            } else {
+                return res.status(400).json({message: 'Update profile failed'})
+            }
+        } 
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+const updateRoleForUser = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const role = req.body.role
+        if(!role) {
+            return res.status(400).json({message: 'Please choose role'})
+        } else {
+            const user = {role: role}
+            const result = await userService.updateRole(_id, user);
+            if(result) {
+                return res.status(200).json({message: 'Update role sucessfull', user: result})
+            } else {
+                return res.status(400).json({message: 'Update role failed'})
+            }
+        }
+    } catch (error) {
+        res.status(500)
+        console.log(error);
+    }
+}
+
+module.exports = { registerUser, emailVerifyUser, loginUser, checkToken, getAllUser, getIdUser, updateProfileUser, updateRoleForUser }
