@@ -48,7 +48,7 @@ const taskAssignmentService = {
     },
 
     async getAllTaskListWithMemberId(member_id) {
-        const result = await Model.taskAssignmentModel.find({member: member_id}).populate('member').exec()
+        const result = await Model.taskAssignmentModel.find({member: member_id}).populate('taskList').populate('member').exec()
         return result
     },
 

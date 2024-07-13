@@ -78,10 +78,10 @@ const updateTaskAssignment = async(req, res) => {
         } else {
             const taskAssignment = {taskList: taskList, member: member}
             const result = await taskAssignmentService.update(_id, taskAssignment)
-            if(result) {
-                return res.status(200).json({message: 'Update task assignment successfull', taskAssignment: result})
-            } else {
+            if(result.error) {
                 return res.status(400).json({message: 'Update task assignment failed'})
+            } else {
+                return res.status(200).json({message: 'Update task assignment successfull', taskAssignment: result})
             }
         }
     } catch (error) {
