@@ -107,10 +107,10 @@ const deleteTaskAssignment = async(req, res) => {
 
 const deleteOneTaskListWithTaskAssignment = async(req, res) => {
     try {
-        const member_id = req.params.member_id
+        const _id = req.params._id
         const taskList_id = req.params.taskList_id
-        const result = await taskAssignmentService.removeTaskList(member_id, taskList_id)
-        if(result.errorMember && result.errorTaskList) {
+        const result = await taskAssignmentService.removeTaskList(_id, taskList_id)
+        if(result.errorTaskAssignment && result.errorTaskList) {
             return res.status(400).json({message: 'Please provide task list ID'})
         } else {
             return res.status(200).json({message: 'Delete task list successfull', taskAssignment: result})

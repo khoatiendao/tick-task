@@ -52,13 +52,48 @@ routes.post(
   postBoard
 );
 
-routes.get(
-  '/department',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin', 'user'),
-  getAllBoardWithDepartment
-);
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/board/department':
+ *  get:
+ *     tags:
+ *     - Board
+ *     summary: Get All Board with all information Department
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get All Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
+routes.get('/department', configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllBoardWithDepartment);
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/board/department/{:_id}':
+ *  get:
+ *     tags:
+ *     - Board
+ *     summary: Get One Board with all information Department
+ *     parameters:
+ *      - name: id board
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get All Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getBoardByIdWithDepartment)
 
 /** GET Methods */

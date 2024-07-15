@@ -52,13 +52,93 @@ const {
  */
 routes.post("/createMember", configJwt.checkTokenVerify, authorizeRole('admin'), createOneMember)
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/member/user/position/department':
+ *  get:
+ *     tags:
+ *     - Member
+ *     summary: Get All Member with all information User and Position and Department
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get All Member Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/user/position/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllMemberWithUserAndPositionAndDepartment)
 
-routes.get("/:_id/user/position/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdMemberWithUserAndPositionAndDepartment)
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/member/user/position/department/{:_id}':
+ *  get:
+ *     tags:
+ *     - Member
+ *     summary: Get One Member with all information User and Position and Department
+ *     parameters:
+ *      - name: id member
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get One member Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
+routes.get("/user/position/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdMemberWithUserAndPositionAndDepartment)
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/member/email/name':
+ *  get:
+ *     tags:
+ *     - Member
+ *     summary: Get All Member with information User email and Name Position and Name Department
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get All Member Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/email/name", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllMemberWithEmailAndNamePositionAndDepartment)
 
-routes.get("/:_id/email/name", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdMemberWithEmailAndNamePositionAndDepartment)
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/member/user/email/name/{:_id}':
+ *  get:
+ *     tags:
+ *     - Member
+ *     summary: Get One Member with information User email and Name Position and Name Department
+ *     parameters:
+ *      - name: id member
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get One member Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
+routes.get("/email/name/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdMemberWithEmailAndNamePositionAndDepartment)
 
 /** GET Methods */
 /**

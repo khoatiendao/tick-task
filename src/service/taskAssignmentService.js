@@ -16,20 +16,21 @@ const taskAssignmentService = {
         return result;
     },
 
-    async removeTaskList(member, taskList_id) {
-        const taskAssignmentWithMember = await Model.taskAssignmentModel.findOne({member}).exec()
-        if(!taskAssignmentWithMember) {
-            return { errorMember: `TaskAssignment for member ${member} does not exist` };
+    async removeTaskList(_id, taskList_id) {
+        const taskAssignment_id = await Model.taskAssignmentModel.findById(_id).exec()
+        if(!taskAssignment_id) {
+            return { errortaskAssignment: `TaskAssignment for ${_id} does not exist` };
         }
 
-        const taskAssignmentWithTaskList = taskAssignmentWithMember.taskList.indexOf(taskList_id)
-        if(taskAssignmentWithTaskList !== 1) {
+        const taskAssignmentWithTaskList = taskAssignment_id.taskList.indexOf(taskList_id)
+        if(taskAssignmentWithTaskList !== -1) {
+            taskAssignment_id.taskList.splice(taskAssignmentWithTaskList, 1)
+            const result = await taskAssignment_id.save()
+            return result;
+        } else {
             return { errorTaskList: `TaskAssignment for task list ${taskList_id} does not exist`}
         }
 
-        taskAssignmentWithMember.taskList.splice(taskAssignmentWithTaskList, 1)
-        const result = await taskAssignmentWithMember.save()
-        return result;
     },
 
     async getMember(member) {

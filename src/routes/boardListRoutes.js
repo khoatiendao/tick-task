@@ -40,9 +40,50 @@ const {createOneBoardList, getOneBoardList, getAllBoardList, updateOneBoardList,
  */
 routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createOneBoardList)
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/boardList/board/department':
+ *  get:
+ *     tags:
+ *     - Board List
+ *     summary: Get All Board List with all information Board and Department
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get All Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/board/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllBoardListWithBoardAndDepartment)
 
-routes.get("/:_id/board/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdBoardListWithBoardAndDepartment)
+
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/boardList/board/department/{:_id}':
+ *  get:
+ *     tags:
+ *     - Board List
+ *     summary: Get One Board List with all information Board and Department
+ *     parameters:
+ *      - name: id board List
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get One Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
+routes.get("/board/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdBoardListWithBoardAndDepartment)
 
 /** GET Methods */
 /**

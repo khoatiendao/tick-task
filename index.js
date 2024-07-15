@@ -13,6 +13,8 @@ const boardListRoutes = require('./src/routes/boardListRoutes')
 const taskListRoutes = require('./src/routes/taskListRoutes')
 const taskAssignmentRoutes = require('./src/routes/taskAssignmentRoutes')
 const {swaggerUI, specsDoc} = require('./src/utils/doc/apiDoc')
+const userCountRoutes = require('./src/routes/SA routes/userCountRoutes')
+
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -30,6 +32,8 @@ app.use("/api/v1/user", userRoutes)
 app.use("/api/v1/position", positionRoutes)
 app.use("/api/v1/member", memberRoutes)
 
+// routes Super Admin
+app.use("/api/v1/dashboard", userCountRoutes)
 
 
 app.listen(PORT, () => {

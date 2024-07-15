@@ -119,12 +119,127 @@ routes.post('/register', registerUser);
  */
 routes.post('/login', loginUser);
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/user/':
+ *  get:
+ *     tags:
+ *     - Users
+ *     summary: Get All User
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get All Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getAllUser)
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/user/{:_id}':
+ *  get:
+ *     tags:
+ *     - Users
+ *     summary: Get One User
+ *     parameters:
+ *      - name: id user
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get One Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdUser)
 
+/** PUT Methods */
+/**
+ * @openapi
+ * '/api/v1/user/{:_id}':
+ *  put:
+ *     tags:
+ *     - Users
+ *     summary: Update Profile User
+ *     parameters:
+ *     - name: id user
+ *       in: path
+ *       required: true
+ *     security:
+ *     - BearerAuth: []
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *           schema:
+ *            type: object
+ *            required:
+ *              - name
+ *              - gender
+ *              - phone
+ *              - address
+ *            properties:
+ *              name:
+ *                type: string
+ *              gender:
+ *                type: string
+ *              phone:
+ *                type: number
+ *              address:
+ *                type: string
+ *     responses:
+ *      201:
+ *        description: Updated
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateProfileUser)
 
+/** PUT Methods */
+/**
+ * @openapi
+ * '/api/v1/user/role/{:_id}':
+ *  put:
+ *     tags:
+ *     - Users
+ *     summary: Update Profile User
+ *     parameters:
+ *     - name: id user
+ *       in: path
+ *       required: true
+ *     security:
+ *     - BearerAuth: []
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *           schema:
+ *            type: object
+ *            required:
+ *              - role
+ *            properties:
+ *              role:
+ *                type: string
+ *     responses:
+ *      201:
+ *        description: Updated
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.put("/role/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateRoleForUser)
 
 /** GET Methods */

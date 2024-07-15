@@ -32,7 +32,10 @@ const {
  *              - member_id
  *            properties:
  *              taskList_id:
- *                type: string
+ *                type: array
+ *                items:
+ *                  type: string
+ *                example: ["taskList_id1", "taskList_id2"]
  *              member_id:
  *                type: string
  *     responses:
@@ -45,6 +48,28 @@ const {
  */
 routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createTaskAssignment)
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/taskAssignment/member/{:member_id}':
+ *  get:
+ *     tags:
+ *     - Task Assignment
+ *     summary: Get One Task Assignment with member id
+ *     parameters:
+ *      - name: id member
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get One Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/member/:member_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), findAllTaskListWithMemberId)
 
 /** GET Methods */
@@ -116,7 +141,10 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *              - member_id
  *            properties:
  *              taskList_id:
- *                type: string
+ *                type: array
+ *                items:
+ *                  type: string
+ *                example: ["taskList_id1", "taskList_id2"]
  *              member_id:
  *                type: string
  *     responses:
@@ -153,7 +181,32 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateTa
  */
 routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteTaskAssignment)
 
-routes.delete("/delete-taskList/:member_id/:taskList_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteOneTaskListWithTaskAssignment)
+/** DELETE Methods */
+/**
+ * @openapi
+ * '/api/v1/taskAssignment/delete-taskList/{:_id}/{:taskList_id}':
+ *  delete:
+ *     tags:
+ *     - Task Assignment
+ *     summary: Delete One Task Assignment 
+ *     parameters:
+ *      - name: id task Assignment
+ *        in: path
+ *        required: true
+ *      - name: id task List
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Delete One Task Assignment Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
+routes.delete("/delete-taskList/:_id/:taskList_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteOneTaskListWithTaskAssignment)
 
 
 module.exports = routes;

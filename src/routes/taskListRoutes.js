@@ -61,8 +61,48 @@ const {
  */
 routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createOneTaskList)
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/taskList/boardList':
+ *  get:
+ *     tags:
+ *     - Task List
+ *     summary: Get All Task List with all infomation Board List
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get All Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('user','admin'), getAllTaskListWithBoardList)
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/taskList/boardList/{:_id}':
+ *  get:
+ *     tags:
+ *     - Task List
+ *     summary: Get One Task List with all information board List
+ *     parameters:
+ *      - name: id board list
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get One Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole('user','admin'), getAllTaskListWithBoardListParam)
 
 /** GET Methods */
