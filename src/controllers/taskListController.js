@@ -36,7 +36,7 @@ const createOneTaskList = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -51,7 +51,7 @@ const getOneTaskList = async(req, res) => {
             return res.status(400).json({message: 'Get one task list successfull'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -65,7 +65,7 @@ const getAllTaskList = async(req, res) => {
             return res.status(400).json({message: 'Get all task list failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -103,7 +103,28 @@ const updateOneTaskList = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
+        console.log(error);
+    }
+}
+
+const updateStatusTaskList = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const status = req.body.status
+        if(!status) {
+            return res.status(400).json({message: 'Please choose status for task'})
+        } else {
+            const taskList = {status: status}
+            const result = await taskListService.updateStatus(_id, taskList)
+            if(result) {
+                return res.status(200).json({message: 'Update status successfull', taskList: result})
+            } else {
+                return res.status(400).json({message: 'Update status failed'})
+            }
+        }
+    } catch (error) {
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -118,7 +139,7 @@ const deleteTaskList = async(req, res) => {
             return res.status(400).json({message: 'Delete task list failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -132,7 +153,7 @@ const getAllTaskListWithBoardList = async(req, res) => {
             return res.status(200).json({message: 'Get item failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -147,9 +168,18 @@ const getAllTaskListWithBoardListParam = async(req, res) => {
             return res.status(200).json({message: 'Get item failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
 
-module.exports = {createOneTaskList, getOneTaskList, getAllTaskList, updateOneTaskList, deleteTaskList, getAllTaskListWithBoardList, getAllTaskListWithBoardListParam}
+module.exports = {
+    createOneTaskList, 
+    getOneTaskList, 
+    getAllTaskList, 
+    updateOneTaskList, 
+    deleteTaskList, 
+    getAllTaskListWithBoardList, 
+    getAllTaskListWithBoardListParam,
+    updateStatusTaskList
+}

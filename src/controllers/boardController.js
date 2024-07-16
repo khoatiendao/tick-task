@@ -22,7 +22,7 @@ const postBoard = async (req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -37,7 +37,7 @@ const getBoardById = async(req, res) => {
             res.status(400).json({message: 'Get Item Failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -51,7 +51,7 @@ const getAllBoard = async(req, res) => {
             res.status(400).json({message: 'Get All Item Failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -66,7 +66,7 @@ const deleteBoardById = async(req, res) => {
             res.status(400).json({message: 'Delete Item Failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -91,7 +91,7 @@ const updateBoardById = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -105,7 +105,7 @@ const getAllBoardWithDepartment = async(req, res) => {
             return res.status(400).json({message: 'Get all board with department failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -120,7 +120,7 @@ const getBoardByIdWithDepartment = async(req, res) => {
             return res.status(400).json({message: 'Get one board with department failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }

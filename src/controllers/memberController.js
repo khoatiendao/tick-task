@@ -39,7 +39,7 @@ const createOneMember = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -54,7 +54,7 @@ const getOneMember = async(req, res) => {
             return res.status(400).json({message: 'Get one member failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -68,7 +68,7 @@ const getAllMember = async(req, res) => {
             return res.status(400).json({message: 'Get all member failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -106,7 +106,7 @@ const updateOneMember = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -121,7 +121,7 @@ const deleteOneMember = async(req, res) => {
             return res.status(400).json({message: 'Delete one member failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -135,7 +135,7 @@ const getAllMemberWithUserAndPositionAndDepartment = async(req, res) => {
             return res.status(400).json({message: 'Get all member with user and position and department failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -150,7 +150,7 @@ const getIdMemberWithUserAndPositionAndDepartment = async(req, res) => {
             return res.status(400).json({message: 'Get one member with user and position and department failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -164,7 +164,7 @@ const getAllMemberWithEmailAndNamePositionAndDepartment = async(req, res) => {
             return res.status(200).json({message: 'Get all item failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -179,7 +179,7 @@ const getIdMemberWithEmailAndNamePositionAndDepartment = async(req, res) => {
             return res.status(200).json({message: 'Get id item failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }

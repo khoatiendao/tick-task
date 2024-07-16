@@ -27,7 +27,7 @@ const createTaskAssignment = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -42,7 +42,7 @@ const getTaskAssignmentById = async(req, res) => {
             return res.status(400).json({message: 'Get one task assignment failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -56,7 +56,7 @@ const getAllTaskAssignment = async(req, res) => {
             return res.status(400).json({message: 'Get all task assignment failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -85,7 +85,7 @@ const updateTaskAssignment = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -100,7 +100,7 @@ const deleteTaskAssignment = async(req, res) => {
             return res.status(400).json({message: 'Delete task assignment failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -116,7 +116,7 @@ const deleteOneTaskListWithTaskAssignment = async(req, res) => {
             return res.status(200).json({message: 'Delete task list successfull', taskAssignment: result})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -131,7 +131,7 @@ const findAllTaskListWithMemberId = async(req, res) => {
             return res.status(400).json({message: 'Get item failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }

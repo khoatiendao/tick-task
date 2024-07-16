@@ -24,7 +24,7 @@ const createOneBoardList = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     } 
 }
@@ -39,7 +39,7 @@ const getOneBoardList = async(req ,res) => {
             return res.status(400).json({message: 'Get Item Failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -53,7 +53,7 @@ const getAllBoardList = async(req, res) => {
             return res.status(400).json({message: 'Get All Item Failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -81,7 +81,7 @@ const updateOneBoardList = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -96,7 +96,7 @@ const deleteOneBoardList = async(req, res) => {
             return res.status(400).json({message: 'Delete One Board List Failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -110,7 +110,7 @@ const getAllBoardListWithBoardAndDepartment = async(req, res) => {
             return res.status(400).json({message: 'Get all board list with board and department failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -125,7 +125,7 @@ const getIdBoardListWithBoardAndDepartment = async(req, res) => {
             return res.status(400).json({message: 'Get one board list with board and department failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }

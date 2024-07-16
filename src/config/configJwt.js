@@ -9,7 +9,7 @@ const JwToken = {
         {
             _id: _id,
             role: role
-        }, jwtKey, {expiresIn: process.env.EXPIRES_IN});
+        }, jwtKey, {algorithm: "HS256", expiresIn: process.env.EXPIRES_IN});
         return createToken;
     },
 
@@ -17,7 +17,7 @@ const JwToken = {
     checkTokenVerify(req, res, next) {
         const tokenVerify = req.headers['auth-token-bearer']
         if(tokenVerify) {
-            jwt.verify(tokenVerify, jwtKey, (err, decoded) => {
+            jwt.verify(tokenVerify, jwtKey, {algorithms: ['HS256']}, (err, decoded) => {
                 if(err) {
                     return res.json({success: false, message: 'Something wrong about verify token'})
                 } else {
@@ -33,14 +33,14 @@ const JwToken = {
     generatedTokenMail(email) {
         const createTokenMail = jwt.sign({
             email: email
-        }, jwtKey, {expiresIn: process.env.EXPIRES_MAIL_IN});
+        }, jwtKey, {algorithm: "HS256" ,expiresIn: process.env.EXPIRES_MAIL_IN});
         return createTokenMail;
     },
 
     checkTokenMailVerify(req, res, next) {
         const tokenEmail = req.params.tokenEmail
         if(tokenEmail) {
-            jwt.verify(tokenEmail, jwtKey, (err, decoded) => {
+            jwt.verify(tokenEmail, jwtKey, {algorithms: ['HS256']}, (err, decoded) => {
                 if(err) {
                     console.log(err)
                     return res.status(400).json({success: false, message: 'Something wrong about verify token mail'})

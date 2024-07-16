@@ -44,7 +44,7 @@ const registerUser = async (req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -58,7 +58,7 @@ const getAllUser = async(req, res) => {
             return res.status(400).json({message: 'Get all user failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -73,7 +73,7 @@ const getIdUser = async(req, res) => {
             return res.status(400).json({message: 'Get user failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -90,7 +90,7 @@ const emailVerifyUser = async (req, res) => {
             return res.status(400).json({ message: 'Confirmed Mail Failed' })
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 };
@@ -100,13 +100,17 @@ const loginUser = async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
         const findUser = await userService.findEmailUser(email);
-        const _id = findUser._id;
-        const role = findUser.role;
         if (!email || !password) {
             res.status(400).json({ message: 'Please type email and password' })
+        } else if(!validator.isEmail(email)) {
+            res.status(400).json({message: 'Email must be a valid email'})
+        } else if(!validator.isStrongPassword(password)) {
+            res.status(400).json({message: 'Password must be strong'})
         } else if (!findUser) {
             res.status(400).json({ message: 'This email is not exist' })
         } else {
+            const _id = findUser._id;
+            const role = findUser.role;
             const matchPassword = await bcrypt.compare(password, findUser.password)
             if(matchPassword) {
                 if(findUser.active === 1 ) {
@@ -120,7 +124,7 @@ const loginUser = async (req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -134,7 +138,7 @@ const checkToken = async(req, res) => {
             return res.status(200).json({message: 'Token is valid'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 
@@ -159,7 +163,7 @@ const updateProfileUser = async(req, res) => {
             }
         } 
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -180,7 +184,7 @@ const updateRoleForUser = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }

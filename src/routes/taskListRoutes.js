@@ -9,7 +9,8 @@ const {
     updateOneTaskList, 
     deleteTaskList, 
     getAllTaskListWithBoardList,
-    getAllTaskListWithBoardListParam} = require('../controllers/taskListController')
+    getAllTaskListWithBoardListParam,
+    updateStatusTaskList} = require('../controllers/taskListController')
 
 
 /** POST Methods */
@@ -201,6 +202,8 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *        description: Server Error
  */
 routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateOneTaskList)
+
+routes.put("/status/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateStatusTaskList)
 
 /** DELETE Methods */
 /**

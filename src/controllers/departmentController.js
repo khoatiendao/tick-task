@@ -17,7 +17,7 @@ const createOneDepartment = async(req, res) => {
             }
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -31,7 +31,7 @@ const getAllDepartment = async(req, res) => {
             return res.status(400).json({message: 'Get Item Failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -46,7 +46,7 @@ const getOneDepartment = async(req, res) => {
             return res.status(400).json({message: 'Get Department One Failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }
@@ -61,7 +61,7 @@ const deleteOneDepartment = async(req, res) => {
             res.status(400).json({message: 'Delete Department Failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error)
     }
 }

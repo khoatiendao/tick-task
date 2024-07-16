@@ -137,7 +137,7 @@ routes.post('/login', loginUser);
  *      500:
  *        description: Server Error
  */
-routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getAllUser)
+routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'SuperAdmin'), getAllUser)
 
 /** GET Methods */
 /**
@@ -161,7 +161,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getAllUser)
  *      500:
  *        description: Server Error
  */
-routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdUser)
+routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', 'SuperAdmin'), getIdUser)
 
 /** PUT Methods */
 /**
@@ -205,7 +205,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *      500:
  *        description: Server Error
  */
-routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateProfileUser)
+routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', 'SuperAdmin'), updateProfileUser)
 
 /** PUT Methods */
 /**
@@ -240,7 +240,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *      500:
  *        description: Server Error
  */
-routes.put("/role/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateRoleForUser)
+routes.put("/role/:_id", configJwt.checkTokenVerify, authorizeRole('SuperAdmin'), updateRoleForUser)
 
 /** GET Methods */
 /**

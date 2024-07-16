@@ -53,6 +53,12 @@ const taskListService = {
         return result
     },
 
+    async updateStatus(_id, taskList) {
+        const newValues = {status: taskList.status}
+        const result = await Model.taskListModel.findByIdAndUpdate(_id, newValues, {new: true}).select('-title -description -priority -startdate -duedate -boardList')
+        return result;
+    },
+
     async deleteOne(_id) {
         const result = await Model.taskListModel.findByIdAndDelete(_id).exec();
         return result

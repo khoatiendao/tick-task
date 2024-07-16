@@ -16,7 +16,7 @@ const createOnePosition = async(req, res) => {
             return res.status(400).json({message: 'Create one position failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -31,7 +31,7 @@ const getOnePosition = async(req, res) => {
             return res.status(400).json({message: 'Get one position failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -45,7 +45,7 @@ const getAllPosition = async(req, res) => {
             return res.status(400).json({message: 'Get all postion failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -64,7 +64,7 @@ const updateOnePosition = async(req, res) => {
             return res.status(400).json({message: 'Update one position failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
@@ -79,7 +79,7 @@ const deleteOnePosition = async(req, res) => {
             return res.status(400).json({message: 'Delete one position failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }

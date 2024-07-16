@@ -9,7 +9,7 @@ const countUserActive = async(req, res) => {
             return res.status(400).json({message: 'Count user active failed'})
         }
     } catch (error) {
-        res.status(500)
+        res.status(500).json({message: 'Internal server error'})
         console.log(error);
     }
 }
