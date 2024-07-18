@@ -15,6 +15,7 @@ const taskAssignmentRoutes = require('./src/routes/taskAssignmentRoutes')
 const {swaggerUI, specsDoc} = require('./src/utils/doc/apiDoc')
 const userCountRoutes = require('./src/routes/SA routes/userCountRoutes')
 const taskCountRoutes = require('./src/routes/SA routes/taskCountRoutes')
+// const socketIo = require('socket.io')
 
 
 app.use(express.json());
@@ -45,3 +46,9 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
     res.send("Welcome to my To-do App")
 })
+
+// Use Socket
+// const io = socketIo(io)
+// io.on('connection', (socket) => {
+//     console.log('New Client connected');
+// })
