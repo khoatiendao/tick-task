@@ -17,7 +17,7 @@
 			<div>
 				<p
 					style="margin: 0;line-height: 140%; text-align: left; font-size: 18px; padding: 7px 0 0 0; font-family: arial, helvetica, sans-serif">
-					Hi {{emailUser}}!!!
+					Hi {{name}}
 				</p>
 				<p
 					style="margin: 0 0 15px 0 ;font-size: 14px; line-height: 140%; text-align: left; font-family: arial, helvetica, sans-serif">
@@ -27,21 +27,19 @@
 
 			<div style="text-align: left; width: 100%; line-height: 30px; font-size: 14px;">
 				<div style="width: 100%; height: 2px; background-color: #8f8b8b; opacity: 0.3;"></div>
+                {{#each tasks}}
 				<div style="padding: 2px 0 0 0;">
-					<div>${taskListsDeadline.title}</div>
-					<div>Thiết kế nút đăng ký</div>
-					<div>Thiết kế nút đăng ký</div>
-					<div>Thiết kế nút đăng ký</div>
-					<div style="padding-bottom: 16px;">Thiết kế nút đăng ký</div>
+					<div><strong>{{ this.title }}</strong></div>
+					<div>{{ this.description }}</div>
+					<div>Due Date: {{ this.duedate }}</div>
 				</div>
+                {{/each}}
 			</div>
 
 			<div>
 				<p
 					style="margin: 0 0 10px 0 ;font-size: 14px; line-height: 20px; text-align: left; font-family: arial, helvetica, sans-serif">
-					Please note that this confirmation link is valid for 10 minutes only. If you don't confirm your
-					email
-					within this time frame, you may need to request a new confirmation link.
+					Please complete the above tasks early to keep up with progress.
 				</p>
 			</div>
 		</div>

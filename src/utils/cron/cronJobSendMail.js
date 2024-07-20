@@ -1,10 +1,12 @@
 const cron = require('node-cron');
 const Model = require('../../models/userModel');
+const { format } = require('date-fns');
+const { vi } = require('date-fns/locale');
 const createMail = require('../../config/configMail');
 
 const cronAutoDoJon = {
   sendMailTaskDeadline() {
-    cron.schedule('0 0 * * *', async () => {
+    cron.schedule('* * * * *', async () => {
       const now = new Date();
       const taskUpComingDeadline = new Date(
         now.getTime() + 24 * 60 * 60 * 1000
@@ -14,6 +16,40 @@ const cronAutoDoJon = {
         const taskListsDeadline = await Model.taskListModel.find({
           duedate: { $gte: now, $lte: taskUpComingDeadline },
         });
+
+        // const tasksByMember = {};
+
+        // for(let task of taskListsDeadline) {
+        //     const taskAssignment = await Model.taskAssignmentModel.findOne({taskList: task._id}).populate('member').exec()
+        //     if(taskAssignment) {
+        //         const memberId = taskAssignment.member._id
+        //         if(!tasksByMember[memberId]) {
+        //             tasksByMember[memberId] = {
+        //                 member: await Model.membersModel.findById(memberId).populate('user').exec(),
+        //                 task: []
+        //             };
+        //         }
+        //         tasksByMember[memberId].taskListsDeadline.push(task)
+
+        //     }
+        // }
+
+        // for(let memberId of Object.keys(tasksByMember)) {
+        //     const member = tasksByMember[memberId].member;
+        //     const tasks = tasksByMember[memberId].tasks;
+        //     if(member && member.user && member.user.email) {
+        //         const emailUser = member.user.email
+        //         const taskDetail = {
+        //             name: member.user.name,
+        //             tasks: tasks.map(task => ({
+        //                 title: task.title,
+        //                 description: task.description,
+        //                 duedate: format(new Date(task.duedate), 'dd/MM/yyyy HH:mm:ss', {locale: vi})
+        //             }))
+        //         };
+        //         await createMail.sendMailTask(emailUser, taskDetail)
+        //     }
+        // }
 
         for (let task of taskListsDeadline) {
           const taskAssignment = await Model.taskAssignmentModel
@@ -27,11 +63,15 @@ const cronAutoDoJon = {
               .exec();
             if (member && member.user && member.user.email) {
               const emailUser = member.user.email;
-              const task = {
-                title: taskListsDeadline.title,
-                description: taskListsDeadline.description,
+              const taskDetail = {
+                name: member.user.name,
+                tasks: taskListsDeadline.map(task => ({
+                    title: task.title,
+                    description: task.description,
+                    duedate: format(new Date(task.duedate), 'dd/MM/yyyy HH:mm:ss', {locale: vi})
+                }))
               };
-              createMail.sendMailTask(emailUser, task);
+              createMail.sendMailTask(emailUser, taskDetail);
             }
           }
         }

@@ -73,7 +73,7 @@ const createMail = {
     });
   },
 
-  sendMailTask(emailUser, task) {
+  sendMailTask(emailUser, taskDetail) {
     return new Promise((resolve, reject) => {
       try {
         readFileHtml(
@@ -83,7 +83,7 @@ const createMail = {
               reject('Error loading templates');
             } else {
               const template = hbs.compile(html);
-              const htmlToSend = template({ emailUser, task });
+              const htmlToSend = template({ emailUser, taskDetail });
               const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: emailUser,
