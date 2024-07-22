@@ -203,6 +203,39 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  */
 routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateOneTaskList)
 
+/** PUT Methods */
+/**
+ * @openapi
+ * '/api/v1/taskList/status/{:_id}':
+ *  put:
+ *     tags:
+ *     - Task List
+ *     summary: Update a Status Task List
+ *     parameters:
+ *     - name: id task list
+ *       in: path
+ *       required: true
+ *     security:
+ *     - BearerAuth: []
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *           schema:
+ *            type: object
+ *            required:
+ *              - status
+ *            properties:
+ *              status:
+ *                type: string
+ *     responses:
+ *      201:
+ *        description: Updated
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.put("/status/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateStatusTaskList)
 
 /** DELETE Methods */
