@@ -44,7 +44,7 @@ const cronAutoDoJon = {
                     tasks: tasks.map(task => ({
                         title: task.title,
                         description: task.description,
-                        duedate: format(new Date(task.duedate), 'dd/MM/yyyy HH:mm:ss', {locale: vi})
+                        duedate: format(new Date(task.duedate), 'dd/MM/yyyy - HH:mm:ss', {locale: vi})
                     }))
                 };
                 await createMail.sendMailTask(emailUser, taskDetail)
