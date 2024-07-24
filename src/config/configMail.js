@@ -55,13 +55,15 @@ const createMail = {
                       __dirname,
                       '../../resource/assets/img/logo.png'
                     ),
-                    cid: 'logo.cid', // Content-ID cho ảnh
+                    contentDisposition: 'inline', // hình ảnh sẽ hiển thị ở bên trong mail chứ không là tệp đính kèm
+                    cid: 'logo@png.cid', // Content-ID cho ảnh
                   },
-                  {
-                    filename: 'backgroundTask.jpg',
-                    path: path.join(__dirname, '../../resource/assets/img/backgroundTask.jpg'),
-                    cid: 'backgroundTask.cid' // Content-ID cho ảnh
-                  }
+                  // {
+                  //   filename: 'banner.svg',
+                  //   path: path.join(__dirname, '../../resource/assets/img/banner.svg'),
+                  //   contentDisposition: 'inline', // hình ảnh sẽ hiển thị ở bên trong mail chứ không là tệp đính kèm
+                  //   cid: 'banner@svg.cid', // Content-ID cho ảnh
+                  // }
                 ],
               };
 

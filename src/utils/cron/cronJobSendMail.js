@@ -60,7 +60,8 @@ const cronAutoDoJon = {
           }
         }
         if(job) {
-          console.log('Sending mail for all user about task and stop cron job', job.stop());
+          job.stop()
+          console.log('Sending mail for all user about task duedate and stop cron job');
         }
       } catch (error) {
         console.error('Error fetching task or sending mails', error);
