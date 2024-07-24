@@ -55,8 +55,13 @@ const createMail = {
                       __dirname,
                       '../../resource/assets/img/logo.png'
                     ),
-                    cid: 'logo@image.cid', // Content-ID cho ảnh
+                    cid: 'logo.cid', // Content-ID cho ảnh
                   },
+                  {
+                    filename: 'backgroundTask.jpg',
+                    path: path.join(__dirname, '../../resource/assets/img/backgroundTask.jpg'),
+                    cid: 'backgroundTask.cid' // Content-ID cho ảnh
+                  }
                 ],
               };
 
@@ -97,7 +102,7 @@ const createMail = {
                       '../../resource/assets/img/logo.png'
                     ),
                     cid: 'logo@image.cid', // Content-ID cho ảnh
-                  },
+                  }
                 ],
               };
 

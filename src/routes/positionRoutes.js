@@ -12,7 +12,7 @@ const { authorizeRole } = require('../config/configAuthRole');
  *  post:
  *     tags:
  *     - Position
- *     summary: Create a Position
+ *     summary: Create a Position (Admin)
  *     security:
  *     - BearerAuth: []
  *     requestBody:
@@ -44,7 +44,7 @@ routes.post("/createPosition", configJwt.checkTokenVerify, authorizeRole('admin'
  *  get:
  *     tags:
  *     - Position
- *     summary: Get One Position
+ *     summary: Get One Position (Admin)
  *     parameters:
  *      - name: id position
  *        in: path
@@ -68,7 +68,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), getOnePo
  *  get:
  *     tags:
  *     - Position
- *     summary: Get All Position
+ *     summary: Get All Position (Admin)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -79,7 +79,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), getOnePo
  *      500:
  *        description: Server Error
  */
-routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllPosition)
+routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getAllPosition)
 
 /** PUT Methods */
 /**
@@ -88,7 +88,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *  put:
  *     tags:
  *     - Position
- *     summary: Update a Position
+ *     summary: Update a Position (Admin)
  *     parameters:
  *      - name: id position
  *        in: path
@@ -124,7 +124,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOn
  *  delete:
  *     tags:
  *     - Position
- *     summary: Delete One Position
+ *     summary: Delete One Position (Admin)
  *     parameters:
  *      - name: id position
  *        in: path

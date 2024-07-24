@@ -21,7 +21,7 @@ const {
  *  post:
  *     tags:
  *     - Member
- *     summary: Create a Member
+ *     summary: Create a Member (Admin)
  *     security:
  *     - BearerAuth: []
  *     requestBody:
@@ -59,7 +59,7 @@ routes.post("/createMember", configJwt.checkTokenVerify, authorizeRole('admin'),
  *  get:
  *     tags:
  *     - Member
- *     summary: Get All Member with all information User and Position and Department
+ *     summary: Get All Member with all information User and Position and Department (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -79,7 +79,7 @@ routes.get("/user/position/department", configJwt.checkTokenVerify, authorizeRol
  *  get:
  *     tags:
  *     - Member
- *     summary: Get One Member with all information User and Position and Department
+ *     summary: Get One Member with all information User and Position and Department (Admin, User)
  *     parameters:
  *      - name: id member
  *        in: path
@@ -103,7 +103,7 @@ routes.get("/user/position/department/:_id", configJwt.checkTokenVerify, authori
  *  get:
  *     tags:
  *     - Member
- *     summary: Get All Member with information User email and Name Position and Name Department
+ *     summary: Get All Member with information User email and Name Position and Name Department (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -123,7 +123,7 @@ routes.get("/email/name", configJwt.checkTokenVerify, authorizeRole('admin', 'us
  *  get:
  *     tags:
  *     - Member
- *     summary: Get One Member with information User email and Name Position and Name Department
+ *     summary: Get One Member with information User email and Name Position and Name Department (Admin, User)
  *     parameters:
  *      - name: id member
  *        in: path
@@ -147,7 +147,7 @@ routes.get("/email/name/:_id", configJwt.checkTokenVerify, authorizeRole('admin'
  *  get:
  *     tags:
  *     - Member
- *     summary: Get One Member
+ *     summary: Get One Member (Admin, User)
  *     parameters:
  *      - name: id member
  *        in: path
@@ -171,7 +171,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *  get:
  *     tags:
  *     - Member
- *     summary: Get All Member
+ *     summary: Get All Member (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -191,7 +191,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *  put:
  *     tags:
  *     - Member
- *     summary: Update a Member
+ *     summary: Update a Member (Admin)
  *     parameters:
  *      - name: id member
  *        in: path
@@ -231,7 +231,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOn
  *  delete:
  *     tags:
  *     - Member
- *     summary: Delete One Member
+ *     summary: Delete One Member (Admin)
  *     parameters:
  *      - name: id member
  *        in: path

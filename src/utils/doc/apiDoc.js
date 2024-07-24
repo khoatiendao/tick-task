@@ -28,7 +28,7 @@ const options = {
       ]
     },
     // Đường dẫn đến các file chứa chú thích API
-    apis: ['./src/routes/*.js'],
+    apis: ['./src/routes/*.js', './src/routes/SA routes/*.js'],
 };
 
 const specsDoc = swaggerJsdoc(options)

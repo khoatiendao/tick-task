@@ -19,7 +19,7 @@ const { authorizeRole } = require('../config/configAuthRole');
  *  post:
  *     tags:
  *     - Board
- *     summary: Create a Board
+ *     summary: Create a Board (Admin)
  *     security:
  *     - BearerAuth: []
  *     requestBody:
@@ -59,7 +59,7 @@ routes.post(
  *  get:
  *     tags:
  *     - Board
- *     summary: Get All Board with all information Department
+ *     summary: Get All Board with all information Department (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -79,7 +79,7 @@ routes.get('/department', configJwt.checkTokenVerify, authorizeRole('admin', 'us
  *  get:
  *     tags:
  *     - Board
- *     summary: Get One Board with all information Department
+ *     summary: Get One Board with all information Department (Admin, User)
  *     parameters:
  *      - name: id board
  *        in: path
@@ -103,7 +103,7 @@ routes.get("/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin'
  *  get:
  *     tags:
  *     - Board
- *     summary: Get One Board
+ *     summary: Get One Board (Admin, User)
  *     parameters:
  *      - name: id board
  *        in: path
@@ -132,7 +132,7 @@ routes.get(
  *  get:
  *     tags:
  *     - Board
- *     summary: Get All Board
+ *     summary: Get All Board (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -157,7 +157,7 @@ routes.get(
  *  put:
  *     tags:
  *     - Board
- *     summary: Update a Board
+ *     summary: Update a Board (Admin)
  *     parameters:
  *      - name: id board
  *        in: path
@@ -199,7 +199,7 @@ routes.put(
  *  delete:
  *     tags:
  *     - Board
- *     summary: Delete One Board
+ *     summary: Delete One Board (Admin)
  *     parameters:
  *      - name: id Board
  *        in: path

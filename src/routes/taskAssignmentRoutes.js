@@ -18,7 +18,7 @@ const {
  *  post:
  *     tags:
  *     - Task Assignment
- *     summary: Create a Task Assignment
+ *     summary: Create a Task Assignment (Admin)
  *     security:
  *     - BearerAuth: []
  *     requestBody:
@@ -55,7 +55,7 @@ routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), creat
  *  get:
  *     tags:
  *     - Task Assignment
- *     summary: Get One Task Assignment with member id
+ *     summary: Get One Task Assignment with member id (Admin ,User)
  *     parameters:
  *      - name: id member
  *        in: path
@@ -79,7 +79,7 @@ routes.get("/member/:member_id", configJwt.checkTokenVerify, authorizeRole('admi
  *  get:
  *     tags:
  *     - Task Assignment
- *     summary: Get One Task Assignment
+ *     summary: Get One Task Assignment (Admin, User)
  *     parameters:
  *      - name: id task assignment
  *        in: path
@@ -103,7 +103,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *  get:
  *     tags:
  *     - Task Assignment
- *     summary: Get All Task Assignment
+ *     summary: Get All Task Assignment (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -123,7 +123,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *  put:
  *     tags:
  *     - Task Assignment
- *     summary: Update a Task Assignment
+ *     summary: Update a Task Assignment (Admin)
  *     parameters:
  *      - name: id task assignment
  *        in: path
@@ -164,7 +164,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateTa
  *  delete:
  *     tags:
  *     - Task Assignment
- *     summary: Delete One Task Assignment
+ *     summary: Delete One Task Assignment (Admin)
  *     parameters:
  *      - name: id task Assignment
  *        in: path
@@ -188,7 +188,7 @@ routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), delet
  *  delete:
  *     tags:
  *     - Task Assignment
- *     summary: Delete One Task Assignment 
+ *     summary: Delete One Task Assignment (Admin)
  *     parameters:
  *      - name: id task Assignment
  *        in: path

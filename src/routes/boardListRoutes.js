@@ -12,7 +12,7 @@ const {createOneBoardList, getOneBoardList, getAllBoardList, updateOneBoardList,
  *  post:
  *     tags:
  *     - Board List
- *     summary: Create a Board List
+ *     summary: Create a Board List (Admin)
  *     security:
  *     - BearerAuth: []
  *     requestBody:
@@ -47,7 +47,7 @@ routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), creat
  *  get:
  *     tags:
  *     - Board List
- *     summary: Get All Board List with all information Board and Department
+ *     summary: Get All Board List with all information Board and Department (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -68,7 +68,7 @@ routes.get("/board/department", configJwt.checkTokenVerify, authorizeRole('admin
  *  get:
  *     tags:
  *     - Board List
- *     summary: Get One Board List with all information Board and Department
+ *     summary: Get One Board List with all information Board and Department (Admin, User)
  *     parameters:
  *      - name: id board List
  *        in: path
@@ -92,7 +92,7 @@ routes.get("/board/department/:_id", configJwt.checkTokenVerify, authorizeRole('
  *  get:
  *     tags:
  *     - Board List
- *     summary: Get One Board List
+ *     summary: Get One Board List (Admin, User)
  *     parameters:
  *      - name: id board List
  *        in: path
@@ -116,7 +116,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *  get:
  *     tags:
  *     - Board List
- *     summary: Get All Board List
+ *     summary: Get All Board List (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -136,7 +136,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *  put:
  *     tags:
  *     - Board List
- *     summary: Update a Board List
+ *     summary: Update a Board List (Admin)
  *     parameters:
  *      - name: id board List
  *        in: path
@@ -173,7 +173,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOn
  *  delete:
  *     tags:
  *     - Board List
- *     summary: Delete One Board List
+ *     summary: Delete One Board List (Admin)
  *     parameters:
  *      - name: id Board List
  *        in: path

@@ -20,7 +20,7 @@ const {
  *  post:
  *     tags:
  *     - Task List
- *     summary: Create a Task List
+ *     summary: Create a Task List (Admin)
  *     security:
  *     - BearerAuth: []
  *     requestBody:
@@ -69,7 +69,7 @@ routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), creat
  *  get:
  *     tags:
  *     - Task List
- *     summary: Get All Task List with all infomation Board List
+ *     summary: Get All Task List with all infomation Board List (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -80,7 +80,7 @@ routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), creat
  *      500:
  *        description: Server Error
  */
-routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('user','admin'), getAllTaskListWithBoardList)
+routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('admin','user'), getAllTaskListWithBoardList)
 
 /** GET Methods */
 /**
@@ -89,7 +89,7 @@ routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('user','admi
  *  get:
  *     tags:
  *     - Task List
- *     summary: Get One Task List with all information board List
+ *     summary: Get One Task List with all information board List (Admin, User)
  *     parameters:
  *      - name: id board list
  *        in: path
@@ -104,7 +104,7 @@ routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('user','admi
  *      500:
  *        description: Server Error
  */
-routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole('user','admin'), getAllTaskListWithBoardListParam)
+routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole('admin','user'), getAllTaskListWithBoardListParam)
 
 /** GET Methods */
 /**
@@ -113,7 +113,7 @@ routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole
  *  get:
  *     tags:
  *     - Task List
- *     summary: Get One Task List
+ *     summary: Get One Task List (Admin, User)
  *     parameters:
  *      - name: id task list
  *        in: path
@@ -137,7 +137,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *  get:
  *     tags:
  *     - Task List
- *     summary: Get All Task List
+ *     summary: Get All Task List (Admin, User)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -157,7 +157,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *  put:
  *     tags:
  *     - Task List
- *     summary: Update a Task List
+ *     summary: Update a Task List (Admin, User)
  *     parameters:
  *     - name: id task list
  *       in: path
@@ -210,7 +210,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *  put:
  *     tags:
  *     - Task List
- *     summary: Update a Status Task List
+ *     summary: Update a Status Task List (Admin, User)
  *     parameters:
  *     - name: id task list
  *       in: path
@@ -245,7 +245,7 @@ routes.put("/status/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'u
  *  delete:
  *     tags:
  *     - Task List
- *     summary: Delete One Task List
+ *     summary: Delete One Task List (Admin)
  *     parameters:
  *      - name: id task list
  *        in: path
@@ -260,6 +260,6 @@ routes.put("/status/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'u
  *      500:
  *        description: Server Error
  */
-routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), deleteTaskList)
+routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteTaskList)
 
 module.exports = routes;

@@ -83,9 +83,9 @@ const emailVerifyUser = async (req, res) => {
     try {
         const user = { email: email }
         const newValues = { active: 1 }
-        const result = await Model.userModel.findOneAndUpdate(user, newValues, { new: true });
+        const result = await Model.userModel.findOneAndUpdate(user, newValues, { new: true })
         if (result) {
-            return res.status(200).json({ message: 'Confirmed Mail Successfull', confirmed: result })
+            return res.status(200).json({ message: 'Confirmed Mail Successfull', confirmed: newValues })
         } else {
             return res.status(400).json({ message: 'Confirmed Mail Failed' })
         }

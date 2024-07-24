@@ -16,7 +16,7 @@ const { authorizeRole } = require('../config/configAuthRole');
  *  post:
  *     tags:
  *     - Department
- *     summary: Create a department
+ *     summary: Create a department (Admin)
  *     security:
  *     - BearerAuth: []
  *     requestBody:
@@ -53,7 +53,7 @@ routes.post(
  *  get:
  *     tags:
  *     - Department
- *     summary: Get All Department
+ *     summary: Get All Department (Admin)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -78,7 +78,7 @@ routes.get(
  *  get:
  *     tags:
  *     - Department
- *     summary: Get One Department
+ *     summary: Get One Department (Admin, User)
  *     parameters:
  *      - name: id department
  *        in: path
@@ -96,7 +96,7 @@ routes.get(
 routes.get(
   '/:_id',
   configJwt.checkTokenVerify,
-  authorizeRole('admin'),
+  authorizeRole('admin', 'user'),
   getOneDepartment
 );
 
@@ -107,7 +107,7 @@ routes.get(
  *  delete:
  *     tags:
  *     - Department
- *     summary: Delete One Department
+ *     summary: Delete One Department (Admin)
  *     parameters:
  *      - name: id department
  *        in: path

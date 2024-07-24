@@ -126,7 +126,7 @@ routes.post('/login', loginUser);
  *  get:
  *     tags:
  *     - Users
- *     summary: Get All User
+ *     summary: Get All User (Admin, SuperAdmin)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -146,7 +146,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'SuperAdmin')
  *  get:
  *     tags:
  *     - Users
- *     summary: Get One User
+ *     summary: Get One User (Admin, User, SuperAdmin)
  *     parameters:
  *      - name: id user
  *        in: path
@@ -170,7 +170,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', '
  *  put:
  *     tags:
  *     - Users
- *     summary: Update Profile User
+ *     summary: Update Profile User (Admin, User, SuperAdmin)
  *     parameters:
  *     - name: id user
  *       in: path
@@ -214,7 +214,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', '
  *  put:
  *     tags:
  *     - Users
- *     summary: Update Profile User
+ *     summary: Update Profile User (SuperAdmin)
  *     parameters:
  *     - name: id user
  *       in: path
@@ -276,7 +276,7 @@ routes.get(
  *  get:
  *     tags:
  *     - Users Authorization
- *     summary: Check token valid
+ *     summary: Check token valid (Admin, User, SuperAdmin)
  *     security:
  *     - BearerAuth: []
  *     responses:
@@ -290,7 +290,7 @@ routes.get(
 routes.get(
   '/token',
   configJwt.checkTokenVerify,
-  authorizeRole('admin', 'user'),
+  authorizeRole('admin', 'user', 'SuperAdmin'),
   checkToken
 );
 
