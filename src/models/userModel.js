@@ -133,10 +133,10 @@ const taskAssignment = mongoose.Schema({
         type: String,
         ref: 'taskList'
     }],
-    member: {
+    member: [{
         type: String,
         ref: 'member'
-    }
+    }]
 }, {
     timestamps: true,
     versionKey: false

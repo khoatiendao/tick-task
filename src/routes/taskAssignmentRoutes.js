@@ -9,7 +9,9 @@ const {
     updateTaskAssignment, 
     deleteTaskAssignment,
     findAllTaskListWithMemberId,
-    deleteOneTaskListWithTaskAssignment} = require('../controllers/taskAssignmentController')
+    deleteOneTaskListWithTaskAssignment,
+    addMemberforTaskListWithTaskAssignment,
+    deleteOneMemberWithTaskAssignment} = require('../controllers/taskAssignmentController')
 
 /** POST Methods */
 /**
@@ -47,6 +49,42 @@ const {
  *        description: Server Error
  */
 routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createTaskAssignment)
+
+/** POST Methods */
+/**
+ * @openapi
+ * '/api/v1/taskAssignment/{:_id}/member/add':
+ *  post:
+ *     tags:
+ *     - Task Assignment
+ *     summary: Add Member for Assignment (Admin)
+ *     parameters:
+ *      - name: id taskAssignment
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *           schema:
+ *            type: object
+ *            required:
+ *              - member_id
+ *            properties:
+ *              member_id:
+ *                type: array
+ *                example: ["member_id1", "member_id2"]
+ *     responses:
+ *      201:
+ *        description: Created
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
+routes.post("/:_id/member/add", configJwt.checkTokenVerify, authorizeRole('admin'), addMemberforTaskListWithTaskAssignment)
 
 /** GET Methods */
 /**
@@ -207,6 +245,33 @@ routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), delet
  *        description: Server Error
  */
 routes.delete("/delete-taskList/:_id/:taskList_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteOneTaskListWithTaskAssignment)
+
+/** DELETE Methods */
+/**
+ * @openapi
+ * '/api/v1/taskAssignment/delete-member/{:_id}/{:member_id}':
+ *  delete:
+ *     tags:
+ *     - Task Assignment
+ *     summary: Delete One Member (Admin)
+ *     parameters:
+ *      - name: id task Assignment
+ *        in: path
+ *        required: true
+ *      - name: id member
+ *        in: path
+ *        required: true
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Delete One Member Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
+routes.delete("/delete-member/:_id/:member_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteOneMemberWithTaskAssignment)
 
 
 module.exports = routes;

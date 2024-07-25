@@ -25,7 +25,7 @@ const cronAutoDoJon = {
             .populate('member')
             .exec();
           if (taskAssignment) {
-            const memberId = taskAssignment.member._id;
+            const memberId = Array.isArray(taskAssignment.member._id) ? taskAssignment.member._id : [taskAssignment.member._id];
             if (!tasksByMember[memberId]) {
               tasksByMember[memberId] = {
                 member: await Model.membersModel
@@ -59,6 +59,7 @@ const cronAutoDoJon = {
             await createMail.sendMailTask(emailUser, taskDetail);
           }
         }
+        console.log(tasksByMember);
         if(job) {
           job.stop()
           console.log('Sending mail for all user about task duedate and stop cron job');

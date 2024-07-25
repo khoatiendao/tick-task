@@ -6,12 +6,12 @@ const taskAssignmentService = {
         return result
     },
 
-    async pushTaskList(member, ...taskList) {
-        const taskAssignmentWithMember = await Model.taskAssignmentModel.findOne({member}).exec()
+    async pushMember(_id, ...member) {
+        const taskAssignmentWithMember = await Model.taskAssignmentModel.findById(_id).exec()
         if(!taskAssignmentWithMember) {
-            return { error: `TaskAssignment for member ${member.user.email} does not exist` };
+            return { error: `TaskAssignment for member ${_id} does not exist` };
         }
-        taskAssignmentWithMember.taskList.push(...taskList)
+        taskAssignmentWithMember.member.push(...member)
         const result = await taskAssignmentWithMember.save()
         return result;
     },
@@ -31,6 +31,22 @@ const taskAssignmentService = {
             return { errorTaskList: `TaskAssignment for task list ${taskList_id} does not exist`}
         }
 
+    },
+
+    async removeMember(_id, member_id) {
+        const taskAssignment_id = await Model.taskAssignmentModel.findById(_id).exec()
+        if(!taskAssignment_id) {
+            return {errortaskAssignment: `TaskAssignment for ${_id} does not exist`}
+        }
+
+        const taskAssignmentWithMember = taskAssignment_id.member.indexOf(member_id)
+        if(taskAssignmentWithMember !== -1) {
+            taskAssignment_id.member.splice(taskAssignmentWithMember, 1)
+            const result = await taskAssignment_id.save()
+            return result
+        } else {
+            return {errorMember: `TaskAssignment for member ${member_id} does not exist`}
+        }
     },
 
     async getMember(member) {

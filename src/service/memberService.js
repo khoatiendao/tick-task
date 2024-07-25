@@ -47,6 +47,19 @@ const memberService = {
         return result;
     },
 
+    async getMember_ArrayWithTaskAssignment(member_array) {
+        const member_Valid_Id = []
+        for(let i = 0; i < member_array.length; i++) {
+            const member = member_array[i]
+            const result = await Model.membersModel.findById(member).exec()
+            if(!result) {
+                return {error: 'Something wrong about member id'}
+            }
+            member_Valid_Id.push(result)
+        }
+        return member_Valid_Id
+    },
+
     async updateMemberById(_id, member) {
         const newValues = {
             user: member.email,
