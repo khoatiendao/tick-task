@@ -7,9 +7,9 @@ const createTaskAssignment = async(req, res) => {
     try {
         const _id = generateUUIDWithCharacter('TA')
         const taskList_id = req.body.taskList_id
-        const taskList_array = Array.isArray(taskList_id) ? taskList_id : [taskList_id]
+        const taskList_array = Array.isArray(taskList_id) ? [taskList_id] : taskList_id
         const member_id = req.body.member_id
-        const member_array = Array.isArray(member_id) ? member_id : [member_id]
+        const member_array = Array.isArray(member_id) ? [member_id] : member_id
         const taskList = await taskListService.getTaskListIdWithOtherController(taskList_array);
         const member = await memberService.getMember_ArrayWithTaskAssignment(member_array);
         if(!taskList_id || !member_id) {
@@ -66,7 +66,7 @@ const updateTaskAssignment = async(req, res) => {
     try {
         const _id = req.params._id
         const taskList_id = req.body.taskList_id
-        const taskList_array = Array.isArray(taskList_id) ? taskList_id : [taskList_id]
+        const taskList_array = Array.isArray(taskList_id) ? [taskList_id] : taskList_id
         const member_id = req.body.member_id
         const taskList = await taskListService.getTaskListIdWithOtherController(taskList_array)
         const member = await memberService.getMemberIdWithOtherController(member_id)
@@ -157,7 +157,7 @@ const addMemberforTaskListWithTaskAssignment = async(req, res) => {
     try {
         const _id = req.params._id
         const member_id = req.body.member_id
-        const member_array = Array.isArray(member_id) ? member_id : [member_id]
+        const member_array = Array.isArray(member_id) ? [member_id] : member_id
         const member = await memberService.getMember_ArrayWithTaskAssignment(member_array)
         if(!member_id) {
             return res.status(400).json({message: 'Please fill member'})

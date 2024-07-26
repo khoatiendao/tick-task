@@ -4,9 +4,9 @@ const { format } = require('date-fns');
 const { vi } = require('date-fns/locale');
 const createMail = require('../../config/configMail');
 
-const cronAutoDoJon = {
+const cronAutoDoJob = {
   sendMailTaskDeadline() {
-    const job = cron.schedule('* * * * *', async () => {
+    const job = cron.schedule("* * * * *", async () => {
       const now = new Date();
       const taskUpComingDeadline = new Date(
         now.getTime() + 24 * 60 * 60 * 1000
@@ -20,25 +20,41 @@ const cronAutoDoJon = {
         const tasksByMember = {};
 
         for (let task of taskListsDeadline) {
-          const taskAssignment = await Model.taskAssignmentModel
+          const taskAssignments = await Model.taskAssignmentModel
             .findOne({ taskList: task._id })
             .populate('member')
             .exec();
-          if (taskAssignment) {
-            const memberId = Array.isArray(taskAssignment.member._id) ? taskAssignment.member._id : [taskAssignment.member._id];
-            if (!tasksByMember[memberId]) {
-              tasksByMember[memberId] = {
-                member: await Model.membersModel
-                  .findById(memberId)
-                  .populate('user')
-                  .exec(),
-                tasks: [],
-              };
+            if(Array.isArray(taskAssignments.taskList) && taskAssignments.taskList.length > 0) {
+              for(let taskAssignment of taskAssignments.taskList) {
+              if(Array.isArray(taskAssignments.member)) {
+                for(let member of taskAssignments.member) {
+                  const memberId = member._id
+                  if (!tasksByMember[memberId]) {
+                    tasksByMember[memberId] = {
+                      member: await Model.membersModel
+                        .findById(memberId)
+                        .populate('user')
+                        .exec(),
+                      tasks: [],
+                    };
+                  }
+                  tasksByMember[memberId].tasks.push(task);
+                }
+              } else {
+                const memberId = taskAssignments.member._id;
+                if(!tasksByMember[memberId]) {
+                  tasksByMember[memberId] = {
+                    member: await Model.membersModel.findById(memberId).populate('user').exec(),
+                    tasks: []
+                  }
+                }
+                tasksByMember[memberId].tasks.push(task);
+              }
             }
-            tasksByMember[memberId].tasks.push(task);
+
           }
         }
-
+        
         for (let memberId of Object.keys(tasksByMember)) {
           const member = tasksByMember[memberId].member;
           const tasks = tasksByMember[memberId].tasks;
@@ -59,7 +75,6 @@ const cronAutoDoJon = {
             await createMail.sendMailTask(emailUser, taskDetail);
           }
         }
-        console.log(tasksByMember);
         if(job) {
           job.stop()
           console.log('Sending mail for all user about task duedate and stop cron job');
@@ -71,4 +86,4 @@ const cronAutoDoJon = {
   },
 };
 
-module.exports = cronAutoDoJon;
+module.exports = cronAutoDoJob;

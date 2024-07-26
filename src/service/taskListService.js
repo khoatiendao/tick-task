@@ -53,6 +53,30 @@ const taskListService = {
         return result
     },
 
+    // async queryStatusTaskList(status) {
+    //     const pending = status.pending;
+    //     const inprocess = status.inprocess;
+    //     const completed = status.completed;
+    //     switch (status) {
+    //         case pending:
+    //             const result_Pending = await Model.taskListModel.find({status: 'Pending'})
+    //             return result_Pending;
+    //         case inprocess:
+    //             const result_inprocess = await Model.taskListModel.find({status: 'In Process'})
+    //             return result_inprocess;
+    //         case completed:
+    //             const result_completed = await Model.taskListModel.find({status: 'Completed'})
+    //             return result_completed
+    //         default:
+    //             throw new Error ("No status to find task list")
+    //     }
+    // },
+
+    async getTaskListFollowStatus(status_array) {
+        const result = await Model.taskListModel.find({status: {$in: status_array}})
+        return result;
+    },
+
     async updateStatus(_id, taskList) {
         const newValues = {status: taskList.status}
         const result = await Model.taskListModel.findByIdAndUpdate(_id, newValues, {new: true}).select('-title -description -priority -startdate -duedate -boardList')

@@ -173,6 +173,23 @@ const getAllTaskListWithBoardListParam = async(req, res) => {
     }
 }
 
+const getTaskListWithStatus = async(req, res) => {
+    try {
+        const {status} = req.query
+        const statusSplit = status.split(',')
+        const status_array = Array.isArray(status) ? [statusSplit] : statusSplit
+        const result = await taskListService.getTaskListFollowStatus(status_array)
+        if(result) {
+            return res.status(200).json({message: 'Get task list with status successfull', taskList: result})
+        } else {
+            return res.status(400).json({message: 'Get task list with status failed'})
+        }
+    } catch (error) {
+        res.status(500).json({message: 'Internal server error'})
+        console.log(error);
+    }
+}
+
 module.exports = {
     createOneTaskList, 
     getOneTaskList, 
@@ -181,5 +198,6 @@ module.exports = {
     deleteTaskList, 
     getAllTaskListWithBoardList, 
     getAllTaskListWithBoardListParam,
-    updateStatusTaskList
+    updateStatusTaskList,
+    getTaskListWithStatus
 }
