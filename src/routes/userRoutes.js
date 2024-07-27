@@ -142,7 +142,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'SuperAdmin')
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/user/{:_id}':
+ * '/api/v1/user/:_id':
  *  get:
  *     tags:
  *     - Users
@@ -166,7 +166,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', '
 /** PUT Methods */
 /**
  * @openapi
- * '/api/v1/user/{:_id}':
+ * '/api/v1/user/:_id':
  *  put:
  *     tags:
  *     - Users
@@ -210,7 +210,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', '
 /** PUT Methods */
 /**
  * @openapi
- * '/api/v1/user/role/{:_id}':
+ * '/api/v1/user/role/:_id':
  *  put:
  *     tags:
  *     - Users
@@ -245,7 +245,7 @@ routes.put("/role/:_id", configJwt.checkTokenVerify, authorizeRole('SuperAdmin')
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/user/confirmation/{:tokenEmail}':
+ * '/api/v1/user/confirmation/:tokenEmail':
  *  get:
  *     tags:
  *     - Users

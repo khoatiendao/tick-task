@@ -75,7 +75,7 @@ routes.get("/user/position/department", configJwt.checkTokenVerify, authorizeRol
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/member/user/position/department/{:_id}':
+ * '/api/v1/member/user/position/department/:_id':
  *  get:
  *     tags:
  *     - Member
@@ -119,7 +119,7 @@ routes.get("/email/name", configJwt.checkTokenVerify, authorizeRole('admin', 'us
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/member/user/email/name/{:_id}':
+ * '/api/v1/member/user/email/name/:_id':
  *  get:
  *     tags:
  *     - Member
@@ -143,7 +143,7 @@ routes.get("/email/name/:_id", configJwt.checkTokenVerify, authorizeRole('admin'
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/member/{:_id}':
+ * '/api/v1/member/:_id':
  *  get:
  *     tags:
  *     - Member
@@ -187,7 +187,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
 /** PUT Methods */
 /**
  * @openapi
- * '/api/v1/member/{:_id}':
+ * '/api/v1/member/:_id':
  *  put:
  *     tags:
  *     - Member
@@ -227,7 +227,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOn
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/v1/member/{:_id}':
+ * '/api/v1/member/:_id':
  *  delete:
  *     tags:
  *     - Member

@@ -74,7 +74,7 @@ routes.get(
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/department/{:_id}':
+ * '/api/v1/department/:_id':
  *  get:
  *     tags:
  *     - Department
@@ -103,7 +103,7 @@ routes.get(
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/v1/department/{:_id}':
+ * '/api/v1/department/:_id':
  *  delete:
  *     tags:
  *     - Department

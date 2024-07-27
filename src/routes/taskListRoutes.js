@@ -11,7 +11,9 @@ const {
     getAllTaskListWithBoardList,
     getAllTaskListWithBoardListParam,
     updateStatusTaskList,
-    getTaskListWithStatus} = require('../controllers/taskListController')
+    getTaskListWithStatus,
+    getTaskListWithDueDate,
+    updateDateTaskList} = require('../controllers/taskListController')
 
 
 /** POST Methods */
@@ -63,7 +65,61 @@ const {
  */
 routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createOneTaskList)
 
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/taskList/filter?':
+ *  get:
+ *     tags:
+ *     - Task List
+ *     summary: Get All Task List By Status (Admin, User)
+ *     parameters:
+ *      - name: status
+ *        in: query
+ *        required: true
+ *        schema:
+ *          type: string
+ *          enum: [Pending, In Process, Completed]
+ *        description: Filter task list by status
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get All Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
 routes.get("/filter", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getTaskListWithStatus)
+
+/** GET Methods */
+/**
+ * @openapi
+ * '/api/v1/taskList/duedate/filter?':
+ *  get:
+ *     tags:
+ *     - Task List
+ *     summary: Get All Task List By DueDate (Admin, User)
+ *     parameters:
+ *      - name: duedate
+ *        in: query
+ *        required: true
+ *        schema:
+ *          type: string
+ *          enum: [overduedate, tomorow, nextweek, nextmonth, no duedate]
+ *        description: Filter task list by duedate
+ *     security:
+ *     - BearerAuth: []
+ *     responses:
+ *      200:
+ *        description: Get All Item Successfull
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
+routes.get("/duedate/filter", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getTaskListWithDueDate)
 
 /** GET Methods */
 /**
@@ -88,7 +144,7 @@ routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('admin','use
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/taskList/boardList/{:_id}':
+ * '/api/v1/taskList/boardList/:_id':
  *  get:
  *     tags:
  *     - Task List
@@ -112,7 +168,7 @@ routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/taskList/{:_id}':
+ * '/api/v1/taskList/:_id':
  *  get:
  *     tags:
  *     - Task List
@@ -156,7 +212,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
 /** PUT Methods */
 /**
  * @openapi
- * '/api/v1/taskList/{:_id}':
+ * '/api/v1/taskList/:_id':
  *  put:
  *     tags:
  *     - Task List
@@ -209,7 +265,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
 /** PUT Methods */
 /**
  * @openapi
- * '/api/v1/taskList/status/{:_id}':
+ * '/api/v1/taskList/status/:_id':
  *  put:
  *     tags:
  *     - Task List
@@ -241,10 +297,48 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  */
 routes.put("/status/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateStatusTaskList)
 
+/** PUT Methods */
+/**
+ * @openapi
+ * '/api/v1/taskList/date/:_id':
+ *  put:
+ *     tags:
+ *     - Task List
+ *     summary: Update a date Task List (Admin)
+ *     parameters:
+ *     - name: id task list
+ *       in: path
+ *       required: true
+ *     security:
+ *     - BearerAuth: []
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *           schema:
+ *            type: object
+ *            required:
+ *              - startdate
+ *              - duedate
+ *            properties:
+ *              startdate:
+ *                type: string
+ *              duedate:
+ *                type: string
+ *     responses:
+ *      201:
+ *        description: Updated
+ *      400:
+ *        description: Bad Request
+ *      500:
+ *        description: Server Error
+ */
+routes.put("/date/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateDateTaskList)
+
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/v1/taskList/{:_id}':
+ * '/api/v1/taskList/:_id':
  *  delete:
  *     tags:
  *     - Task List

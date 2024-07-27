@@ -53,7 +53,7 @@ routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), creat
 /** POST Methods */
 /**
  * @openapi
- * '/api/v1/taskAssignment/{:_id}/member/add':
+ * '/api/v1/taskAssignment/:_id/member/add':
  *  post:
  *     tags:
  *     - Task Assignment
@@ -89,7 +89,7 @@ routes.post("/:_id/member/add", configJwt.checkTokenVerify, authorizeRole('admin
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/taskAssignment/member/{:member_id}':
+ * '/api/v1/taskAssignment/member/:member_id':
  *  get:
  *     tags:
  *     - Task Assignment
@@ -113,7 +113,7 @@ routes.get("/member/:member_id", configJwt.checkTokenVerify, authorizeRole('admi
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/taskAssignment/{:_id}':
+ * '/api/v1/taskAssignment/:_id':
  *  get:
  *     tags:
  *     - Task Assignment
@@ -157,7 +157,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
 /** PUT Methods */
 /**
  * @openapi
- * '/api/v1/taskAssignment/{:_id}':
+ * '/api/v1/taskAssignment/:_id':
  *  put:
  *     tags:
  *     - Task Assignment
@@ -198,7 +198,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateTa
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/v1/taskAssignment/{:_id}':
+ * '/api/v1/taskAssignment/:_id':
  *  delete:
  *     tags:
  *     - Task Assignment
@@ -222,7 +222,7 @@ routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), delet
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/v1/taskAssignment/delete-taskList/{:_id}/{:taskList_id}':
+ * '/api/v1/taskAssignment/delete-taskList/:_id/:taskList_id':
  *  delete:
  *     tags:
  *     - Task Assignment
@@ -249,7 +249,7 @@ routes.delete("/delete-taskList/:_id/:taskList_id", configJwt.checkTokenVerify, 
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/v1/taskAssignment/delete-member/{:_id}/{:member_id}':
+ * '/api/v1/taskAssignment/delete-member/:_id/:member_id':
  *  delete:
  *     tags:
  *     - Task Assignment

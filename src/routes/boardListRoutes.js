@@ -64,7 +64,7 @@ routes.get("/board/department", configJwt.checkTokenVerify, authorizeRole('admin
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/boardList/board/department/{:_id}':
+ * '/api/v1/boardList/board/department/:_id':
  *  get:
  *     tags:
  *     - Board List
@@ -88,7 +88,7 @@ routes.get("/board/department/:_id", configJwt.checkTokenVerify, authorizeRole('
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/boardList/{:_id}':
+ * '/api/v1/boardList/:_id':
  *  get:
  *     tags:
  *     - Board List
@@ -132,7 +132,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
 /** PUT Methods */
 /**
  * @openapi
- * '/api/v1/boardList/{:_id}':
+ * '/api/v1/boardList/:_id':
  *  put:
  *     tags:
  *     - Board List
@@ -169,7 +169,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOn
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/v1/boardList/{:_id}':
+ * '/api/v1/boardList/:_id':
  *  delete:
  *     tags:
  *     - Board List

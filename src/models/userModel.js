@@ -84,7 +84,7 @@ const taskList = mongoose.Schema({
         ref: 'boardList'
     }
 },{
-    timestamps: true,
+    timestamps: false,
     versionKey: false
 })
 
@@ -189,6 +189,17 @@ const user = mongoose.Schema({
     versionKey: false
 });
 
+const cron = mongoose.Schema({
+    date: {
+        type: Date,
+        required: true
+    },
+    status: {
+        type: String,
+        required: true
+    }
+})
+
 const departmentModel = mongoose.model('department', department)
 const boardModel = mongoose.model('board', board)
 const boardListModel = mongoose.model('boardList', boardList)
@@ -197,6 +208,7 @@ const taskAssignmentModel = mongoose.model('taskAssignment', taskAssignment)
 const userModel = mongoose.model('user', user);
 const membersModel = mongoose.model('member', members)
 const positionModel = mongoose.model('position', position)
+const cronModel = mongoose.model('cron', cron)
 
 
-module.exports = {userModel, boardModel, boardListModel, taskListModel, membersModel, taskAssignmentModel, positionModel, departmentModel};
+module.exports = {userModel, boardModel, boardListModel, taskListModel, membersModel, taskAssignmentModel, positionModel, departmentModel, cronModel};

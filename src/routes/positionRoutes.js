@@ -40,7 +40,7 @@ routes.post("/createPosition", configJwt.checkTokenVerify, authorizeRole('admin'
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/position/{:_id}':
+ * '/api/v1/position/:_id':
  *  get:
  *     tags:
  *     - Position
@@ -84,7 +84,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getAllPositi
 /** PUT Methods */
 /**
  * @openapi
- * '/api/v1/position/{:_id}':
+ * '/api/v1/position/:_id':
  *  put:
  *     tags:
  *     - Position
@@ -120,7 +120,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOn
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/v1/position/{:_id}':
+ * '/api/v1/position/:_id':
  *  delete:
  *     tags:
  *     - Position

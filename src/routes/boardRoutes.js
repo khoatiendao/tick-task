@@ -75,7 +75,7 @@ routes.get('/department', configJwt.checkTokenVerify, authorizeRole('admin', 'us
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/board/department/{:_id}':
+ * '/api/v1/board/department/:_id':
  *  get:
  *     tags:
  *     - Board
@@ -99,7 +99,7 @@ routes.get("/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin'
 /** GET Methods */
 /**
  * @openapi
- * '/api/v1/board/{:_id}':
+ * '/api/v1/board/:_id':
  *  get:
  *     tags:
  *     - Board
@@ -153,7 +153,7 @@ routes.get(
 /** PUT Methods */
 /**
  * @openapi
- * '/api/v1/board/{:_id}':
+ * '/api/v1/board/:_id':
  *  put:
  *     tags:
  *     - Board
@@ -195,7 +195,7 @@ routes.put(
 /** DELETE Methods */
 /**
  * @openapi
- * '/api/v1/board/{:_id}':
+ * '/api/v1/board/:_id':
  *  delete:
  *     tags:
  *     - Board

@@ -13,7 +13,7 @@ const createOneTaskList = async(req, res) => {
         const duedate = req.body.duedate
         const boardList_id = req.body.boardList_id
         const boardList = await boardListService.getByIdWithOtherController(boardList_id)
-        if(!title || !description || !status || !priority || !startdate || !duedate || !boardList_id) {
+        if(!title || !description || !status || !priority || !boardList_id) {
             return res.status(400).json({message: 'Please fill all information'})
         } else if(!boardList) {
             return res.status(400).json({message: 'Board List does exists'})
@@ -129,6 +129,24 @@ const updateStatusTaskList = async(req, res) => {
     }
 }
 
+const updateDateTaskList = async(req, res) => {
+    try {
+        const _id = req.params._id
+        const startdate = req.body.startdate
+        const duedate = req.body.duedate
+        const taskList = {startdate: startdate, duedate: duedate}
+        const result = await taskListService.updateStartDateAndDueDate(_id, taskList)
+        if(result) {
+            return res.status(200).json({message: 'Update date task list successfull', taskList: result})
+        } else {
+            return res.status(400).json({message: 'Update date task list failed'})
+        }
+    } catch (error) {
+        res.status(500).json({message: 'Internal server error'})
+        console.log(error);
+    }
+}
+
 const deleteTaskList = async(req, res) => {
     try {
         const _id = req.params._id
@@ -190,6 +208,23 @@ const getTaskListWithStatus = async(req, res) => {
     }
 }
 
+const getTaskListWithDueDate = async(req, res) => {
+    try {
+        const {duedate} = req.query
+        const duedate_split = duedate.split(',')
+        const duedate_array = Array.isArray(duedate) ? [duedate_split] : duedate_split
+        const result = await taskListService.getTaskListFollowDueDate(duedate_array)
+        if(result) {
+            return res.status(200).json({message: 'Get task list with duedate successfull', taskList: result})
+        } else {
+            return res.status(400).json({message: 'Get task list with duedate failed'})
+        }
+    } catch (error) {
+        res.status(500).json({message: 'Internal server error'})
+        console.log(error);
+    }
+}
+
 module.exports = {
     createOneTaskList, 
     getOneTaskList, 
@@ -199,5 +234,7 @@ module.exports = {
     getAllTaskListWithBoardList, 
     getAllTaskListWithBoardListParam,
     updateStatusTaskList,
-    getTaskListWithStatus
+    getTaskListWithStatus,
+    getTaskListWithDueDate,
+    updateDateTaskList
 }

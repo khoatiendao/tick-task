@@ -53,33 +53,74 @@ const taskListService = {
         return result
     },
 
-    // async queryStatusTaskList(status) {
-    //     const pending = status.pending;
-    //     const inprocess = status.inprocess;
-    //     const completed = status.completed;
-    //     switch (status) {
-    //         case pending:
-    //             const result_Pending = await Model.taskListModel.find({status: 'Pending'})
-    //             return result_Pending;
-    //         case inprocess:
-    //             const result_inprocess = await Model.taskListModel.find({status: 'In Process'})
-    //             return result_inprocess;
-    //         case completed:
-    //             const result_completed = await Model.taskListModel.find({status: 'Completed'})
-    //             return result_completed
-    //         default:
-    //             throw new Error ("No status to find task list")
-    //     }
-    // },
-
     async getTaskListFollowStatus(status_array) {
         const result = await Model.taskListModel.find({status: {$in: status_array}})
         return result;
     },
 
+    async getTaskListFollowDueDate(duedate_array) {
+        const now = new Date();
+        let duedateConditions = []
+        duedate_array.forEach(duedate => {
+            switch (duedate) {
+                case 'overduedate' :
+                    duedateConditions.push({ duedate: {$lte: now}})
+                    break;
+                case 'tomorow' :
+                    const endOfTomorow = new Date(now)
+                    endOfTomorow.setDate(now.getDate() + 1)
+                    endOfTomorow.setHours(24, 59, 59, 999)
+                    duedateConditions.push({ duedate: {$gte: now, $lte: endOfTomorow}})
+                    break;
+                case 'nextweek':
+                    const startOfNextWeek = new Date(now)
+                    startOfNextWeek.setDate(now.getDate() + (7 - now.getDay()))
+                    startOfNextWeek.setHours(0, 0, 0, 0)
+                    const endOfNextWeek = new Date(startOfNextWeek)
+                    endOfNextWeek.setDate(startOfNextWeek.getDate() + 6)
+                    endOfNextWeek.setHours(24,  59,  59,  999)
+                    duedateConditions.push({duedate: {$gte: startOfNextWeek, $lte: endOfNextWeek}})
+                    break;
+                case 'nextmonth':
+                    const endOfMonth = new Date(now)
+                    endOfMonth.setMonth(now.getMonth() + 1)
+                    endOfMonth.setHours(0, 0, 0, 0)
+                    const endOfNextMonth = new Date(endOfMonth)
+                    endOfNextMonth.setMonth(endOfMonth.getMonth() - 1)
+                    endOfNextMonth.setHours(24,  59,  59,  999)
+                    duedateConditions.push({ duedate: {$gte: endOfNextMonth, $lte: endOfMonth}})
+                    break;
+                case 'no duedate':
+                    duedateConditions.push({ duedate: {$eq: null}})
+                    break;
+                default:
+                    break;
+            }
+        })
+
+        const query = {}
+        if(Object.keys(duedateConditions).length > 0) {
+            query.$or = duedateConditions
+        }
+
+        try {
+            const result = await Model.taskListModel.find(query)
+            return result
+        } catch (error) {
+            console.log("Error about fetching task list due date: ", error);
+        }
+        
+    },
+
     async updateStatus(_id, taskList) {
         const newValues = {status: taskList.status}
-        const result = await Model.taskListModel.findByIdAndUpdate(_id, newValues, {new: true}).select('-title -description -priority -startdate -duedate -boardList')
+        const result = await Model.taskListModel.findByIdAndUpdate(_id, newValues, {new: true}).select('-title -description -priority -startdate -duedate -boardList -createdAt -updatedAt')
+        return result;
+    },
+
+    async updateStartDateAndDueDate(_id, taskList) {
+        const newValues = {startdate: taskList.startdate, duedate: taskList.duedate}
+        const result = await Model.taskListModel.findByIdAndUpdate(_id, newValues, {new: true}).select('-title -description -status -priority -boardList -createdAt -updatedAt')
         return result;
     },
 
