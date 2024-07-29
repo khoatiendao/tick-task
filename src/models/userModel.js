@@ -194,9 +194,10 @@ const cron = mongoose.Schema({
         type: Date,
         required: true
     },
-    status: {
-        type: String,
-        required: true
+    enable: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 })
 
