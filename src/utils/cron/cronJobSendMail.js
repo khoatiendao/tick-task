@@ -28,9 +28,9 @@ const cronAutoDoJob = {
             Array.isArray(taskAssignments.taskList) &&
             taskAssignments.taskList.length > 0
           ) {
-            for (let taskAssignment of taskAssignments.taskList) {
-              if (Array.isArray(taskAssignments.member)) {
-                for (let member of taskAssignments.member) {
+            for (let taskAssignment of taskAssignments) {
+              if (Array.isArray(taskAssignment.member)) {
+                for (let member of taskAssignment.member) {
                   const memberId = member._id;
                   if (!tasksByMember[memberId]) {
                     tasksByMember[memberId] = {

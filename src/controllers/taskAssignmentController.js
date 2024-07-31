@@ -7,7 +7,7 @@ const createTaskAssignment = async(req, res) => {
     try {
         const _id = generateUUIDWithCharacter('TA')
         const taskList_id = req.body.taskList_id
-        const taskList_array = Array.isArray(taskList_id) ? [taskList_id] : taskList_id
+        const taskList_array = Array.isArray(taskList_id) ? taskList_id : [taskList_id]
         const member_id = req.body.member_id
         const member_array = Array.isArray(member_id) ? [member_id] : member_id
         const taskList = await taskListService.getTaskListIdWithOtherController(taskList_array);
