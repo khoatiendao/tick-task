@@ -49,9 +49,9 @@ app.get("/", (req, res) => {
     res.send("Welcome to my To-do App")
 })
 
-// app.listen(cronAutoDoJob.sendMailTaskDeadline(), () => {
-//     console.log("Cron Job Started");
-// })
+app.listen(cronAutoDoJob.sendMailTaskDeadline(), () => {
+    console.log("Cron Job Started");
+})
 
 // Use Socket
 // const io = socketIo(io)

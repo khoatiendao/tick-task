@@ -66,7 +66,7 @@ const updateTaskAssignment = async(req, res) => {
     try {
         const _id = req.params._id
         const taskList_id = req.body.taskList_id
-        const taskList_array = Array.isArray(taskList_id) ? [taskList_id] : taskList_id
+        const taskList_array = Array.isArray(taskList_id) ? taskList_id : [taskList_id]
         const member_id = req.body.member_id
         const taskList = await taskListService.getTaskListIdWithOtherController(taskList_array)
         const member = await memberService.getMemberIdWithOtherController(member_id)
