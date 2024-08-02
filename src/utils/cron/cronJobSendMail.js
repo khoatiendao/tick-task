@@ -17,7 +17,6 @@ const cronAutoDoJob = {
           duedate: { $gte: now, $lte: taskUpComingDeadline },
         });
         
-
         const tasksByMember = {};
 
         for (let task of taskListsDeadline) {

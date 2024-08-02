@@ -190,8 +190,8 @@ const user = mongoose.Schema({
 });
 
 const cron = mongoose.Schema({
-    date: {
-        type: Date,
+    time: {
+        type: String,
         required: true
     },
     enable: {
@@ -199,6 +199,10 @@ const cron = mongoose.Schema({
         required: true,
         default: false
     }
+}, {
+    _id: false,
+    timestamps: false,
+    versionKey: false
 })
 
 const departmentModel = mongoose.model('department', department)
