@@ -16,18 +16,19 @@ const cronAutoDoJob = {
         const taskListsDeadline = await Model.taskListModel.find({
           duedate: { $gte: now, $lte: taskUpComingDeadline },
         });
+        
 
         const tasksByMember = {};
 
-        const taskAssignments = await Model.taskAssignmentModel
-          .findOne({ taskList: task._id })
-          .populate('member')
-          .exec();
-        for (let taskAssignment of taskAssignments.taskList) {
-          if (Array.isArray(taskAssignment.member)) {
-            for (let member of taskAssignment.member) {
-              const memberId = member._id;
-              if (!tasksByMember[memberId]) {
+        for (let task of taskListsDeadline) {
+          const taskAssignments = await Model.taskAssignmentModel.find({ taskList: task._id }).populate('member').exec();
+          
+          taskAssignments.forEach(taskAssignment => {
+            const members = Array.isArray(taskAssignment.member) ? taskAssignment.member : [taskAssignment.member]
+
+            members.forEach(async member => {
+              const memberId = member._id
+              if(!tasksByMember[memberId]) {
                 tasksByMember[memberId] = {
                   member: await Model.membersModel
                     .findById(memberId)
@@ -36,27 +37,14 @@ const cronAutoDoJob = {
                   tasks: [],
                 };
               }
-              tasksByMember[memberId].tasks.push(task);
-            }
-          } else {
-            const memberId = taskAssignments.member._id;
-            if (!tasksByMember[memberId]) {
-              tasksByMember[memberId] = {
-                member: await Model.membersModel
-                  .findById(memberId)
-                  .populate('user')
-                  .exec(),
-                tasks: [],
-              };
-            }
-            tasksByMember[memberId].tasks.push(task);
-          }
+              tasksByMember[memberId].tasks.push(task)  
+            })
+          });
         }
 
         for (let memberId of Object.keys(tasksByMember)) {
           const member = tasksByMember[memberId].member;
           const tasks = tasksByMember[memberId].tasks;
-          // console.log(tasks);
           if (member && member.user && member.user.email) {
             const emailUser = member.user.email;
             const taskDetail = {
@@ -71,11 +59,10 @@ const cronAutoDoJob = {
                 ),
               })),
             };
-            // console.log(taskDetail);
             await createMail.sendMailTask(emailUser, taskDetail);
           }
         }
-        // console.log(tasksByMember);
+        console.log(tasksByMember);
         if (job) {
           job.stop();
           console.log(
