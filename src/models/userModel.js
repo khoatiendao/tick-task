@@ -190,6 +190,10 @@ const user = mongoose.Schema({
 });
 
 const cron = mongoose.Schema({
+    _id: {
+        type: String,
+        required: true
+    },
     time: {
         type: String,
         required: true
@@ -200,7 +204,6 @@ const cron = mongoose.Schema({
         default: false
     }
 }, {
-    _id: false,
     timestamps: false,
     versionKey: false
 })

@@ -15,7 +15,7 @@ const taskAssignmentRoutes = require('./src/routes/taskAssignmentRoutes')
 const {swaggerUI, specsDoc} = require('./src/utils/doc/apiDoc')
 const userCountRoutes = require('./src/routes/SA routes/userCountRoutes')
 const taskCountRoutes = require('./src/routes/SA routes/taskCountRoutes')
-const cronAutoDoJob = require('./src/utils/cron/cronJobSendMail');
+const cronRoutes = require('./src/routes/cronRoutes')
 // const socketIo = require('socket.io')
 
 
@@ -39,7 +39,8 @@ app.use("/api/v1/member", memberRoutes)
 app.use("/api/v1/admin/dashboard/user", userCountRoutes)
 app.use("/api/v1/admin/dashboard/task", taskCountRoutes)
 
-
+// cron bot routes
+app.use("/api/v1/cron", cronRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`)
@@ -47,10 +48,6 @@ app.listen(PORT, () => {
 
 app.get("/", (req, res) => {
     res.send("Welcome to my To-do App")
-})
-
-app.listen(cronAutoDoJob.sendMailTaskDeadline(), () => {
-    console.log("Cron Job Started");
 })
 
 // Use Socket

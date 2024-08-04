@@ -5,8 +5,9 @@ const { vi } = require('date-fns/locale');
 const createMail = require('../../config/configMail');
 
 const cronAutoDoJob = {
-  sendMailTaskDeadline() {
-    const job = cron.schedule('* * * * *', async () => {
+  startCronJob(timeCron) {
+    cron.schedule(timeCron, async () => {
+      console.log("Cron job is starting");
       const now = new Date();
       const taskUpComingDeadline = new Date(
         now.getTime() + 24 * 60 * 60 * 1000
@@ -61,18 +62,16 @@ const cronAutoDoJob = {
             await createMail.sendMailTask(emailUser, taskDetail);
           }
         }
-        console.log(tasksByMember);
-        if (job) {
-          job.stop();
-          console.log(
-            'Sending mail for all user about task duedate and stop cron job'
-          );
-        }
       } catch (error) {
         console.error('Error fetching task or sending mails', error);
       }
     });
   },
+
+  stopCronJob() {
+    console.log("Cron job stop");
+    cron.stop();
+  }
 };
 
 module.exports = cronAutoDoJob;
