@@ -6,7 +6,7 @@ const createMail = require('../../config/configMail');
 
 const cronAutoDoJob = {
   startCronJob(timeCron) {
-    cron.schedule(timeCron, async () => {
+    const taskCron = cron.schedule(timeCron, async () => {
       console.log("Cron job is starting");
       const now = new Date();
       const taskUpComingDeadline = new Date(
@@ -66,11 +66,14 @@ const cronAutoDoJob = {
         console.error('Error fetching task or sending mails', error);
       }
     });
+
+    taskCron.start();
   },
 
-  stopCronJob() {
+  stopCronJob(timeCron) {
+    const taskCron = this.startCronJob(timeCron)
     console.log("Cron job stop");
-    cron.stop();
+    taskCron.stop()
   }
 };
 

@@ -1,15 +1,19 @@
 const express = require('express')
 const routes = express.Router()
-const {startCron, getDataCron, updateTime, updateStatusCron} = require('../controllers/cronController')
+const {startCron, getAllDataCron,getCronById, updateName, updateTime, updateStatusCron} = require('../controllers/cronController')
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
 
 routes.post("/start", configJwt.checkTokenVerify, authorizeRole('admin'), startCron)
 
-routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getDataCron)
+routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getAllDataCron)
 
-routes.put("/updateTime", configJwt.checkTokenVerify, authorizeRole('admin'), updateTime)
+routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), getCronById)
 
-routes.put("/updateStatus", configJwt.checkTokenVerify, authorizeRole('admin'), updateStatusCron)
+routes.put("/:_id/name", configJwt.checkTokenVerify, authorizeRole('admin'), updateName)
+
+routes.put("/:_id/time", configJwt.checkTokenVerify, authorizeRole('admin'), updateTime)
+
+routes.put("/:_id/enable", configJwt.checkTokenVerify, authorizeRole('admin'), updateStatusCron)
 
 module.exports = routes

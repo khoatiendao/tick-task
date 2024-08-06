@@ -15,7 +15,7 @@ const taskAssignmentRoutes = require('./src/routes/taskAssignmentRoutes')
 const {swaggerUI, specsDoc} = require('./src/utils/doc/apiDoc')
 const userCountRoutes = require('./src/routes/SA routes/userCountRoutes')
 const taskCountRoutes = require('./src/routes/SA routes/taskCountRoutes')
-const cronRoutes = require('./src/routes/cronRoutes')
+const cronRoutes = require('./src/routes/cronRoutes');
 // const socketIo = require('socket.io')
 
 

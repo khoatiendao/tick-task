@@ -194,6 +194,11 @@ const cron = mongoose.Schema({
         type: String,
         required: true
     },
+    name: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     time: {
         type: String,
         required: true
