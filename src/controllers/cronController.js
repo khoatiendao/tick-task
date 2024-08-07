@@ -88,10 +88,16 @@ const updateStatusCron = async(req, res) => {
         const _id = req.params._id
         const enable = req.body.enable
         const result = await cronService.updateStatus(_id, enable)
-        if(result) {
-            return res.status(200).json({message: 'Cron job is stop successfull', statusCron: result})
+        if(result.error) {
+            return res.status(200).json({message: result.error})
+        }
+        
+        if(enable === true) {
+            return res.status(200).json({message: 'Cron job is started successfully', statusCron: result})
+        } else if (enable === false) {
+            return res.status(200).json({message: 'Cron job is stop successfully', statusCron: result})
         } else {
-            return res.status(200).json({message: 'Cron job is stop failed'})
+            return res.status(400).json({message: 'Invalid enable value'})
         }
     } catch (error) {
         res.status(500).json({message: 'Internal server error'})

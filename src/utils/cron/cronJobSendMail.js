@@ -4,9 +4,16 @@ const { format } = require('date-fns');
 const { vi } = require('date-fns/locale');
 const createMail = require('../../config/configMail');
 
+let taskCron
+
 const cronAutoDoJob = {
   startCronJob(timeCron) {
-    const taskCron = cron.schedule(timeCron, async () => {
+
+    if(taskCron) {
+      taskCron.stop()
+    }
+
+    taskCron = cron.schedule(timeCron, async () => {
       console.log("Cron job is starting");
       const now = new Date();
       const taskUpComingDeadline = new Date(
@@ -66,14 +73,13 @@ const cronAutoDoJob = {
         console.error('Error fetching task or sending mails', error);
       }
     });
-
-    taskCron.start();
   },
 
-  stopCronJob(timeCron) {
-    const taskCron = this.startCronJob(timeCron)
-    console.log("Cron job stop");
-    taskCron.stop()
+  stopCronJob() {
+    if(taskCron) {
+      taskCron.stop()
+      console.log("Cron Job stopped");
+    }
   }
 };
 

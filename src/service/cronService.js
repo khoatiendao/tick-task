@@ -57,15 +57,18 @@ const cronService = {
             return {error: "Cron is not exists"}
         }
 
+        if(findIdCron.enable === enable) {
+            return {error: `Cron job is already ${findIdCron.enable}`}
+        }
+
         switch (findIdCron.enable !== enable) {
             case enable === false:
-                const stopCron = await Model.cronModel.updateOne({enable: enable})
-                const timeStop = findIdCron.time;
-                cronJob.stopCronJob(timeStop);
+                const stopCron = await Model.cronModel.findByIdAndUpdate(_id, {enable: enable}, {new: true})
+                cronJob.stopCronJob();
                 return stopCron
             case enable === true:
                 const time = findIdCron.time;
-                const startCron = await Model.cronModel.updateOne({enable: enable})
+                const startCron = await Model.cronModel.findByIdAndUpdate(_id, {enable: enable}, {new: true})
                 cronJob.startCronJob(time)
                 return startCron
             default:
