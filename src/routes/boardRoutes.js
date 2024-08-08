@@ -158,6 +158,8 @@ routes.get(
  *     tags:
  *     - Board
  *     summary: Update a Board (Admin)
+ *     security:
+ *     - BearerAuth: []
  *     parameters:
  *      - name: id board
  *        in: path

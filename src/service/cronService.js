@@ -31,7 +31,7 @@ const cronService = {
         if(!findIdCron) {
             return {error: "Cron is not exists"}
         }
-        const result = await Model.cronModel.updateOne({name: name})
+        const result = await Model.cronModel.findByIdAndUpdate(_id, {name: name}, {new: true})
         if(!result) {
             return {error: "Something wrong about update name"}
         }
@@ -43,7 +43,7 @@ const cronService = {
         if(!findIdCron) {
             return {error: "Cron is not exists"}
         }
-        const result = await Model.cronModel.updateOne({time: time})
+        const result = await Model.cronModel.findByIdAndUpdate(_id, {time: time}, {new: true})
         if(!result) {
             return {error: "Something wrong about update time"}
         }

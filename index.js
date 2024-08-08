@@ -19,7 +19,7 @@ const cronRoutes = require('./src/routes/cronRoutes');
 // const socketIo = require('socket.io')
 
 
-app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // Api document

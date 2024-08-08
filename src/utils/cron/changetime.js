@@ -3,8 +3,8 @@ const convert = {
         switch (true) {
             case minute === "*" && hour === "*" && dayOfMonth === "*" && month === "*" && dayOfWeek === "*":
                 return `* * * * *`;
-            // case minute === "*" && hour === "*" && dayOfMonth === "*" && month === "*" && dayOfWeek === "*":
-            //     return `0 0 * * *`; // Cron will start at 0 hour PM everyday
+            case minute !== "*" && hour === "*" && dayOfMonth === "*" && month === "*" && dayOfWeek === "*":
+                return `${minute} * * * *`; // Cron will start at 0 hour PM everyday
             case minute !== "*" && hour !== "*" && dayOfMonth === "*" && month === "*" && dayOfWeek === "*":
                 return `${minute} ${hour} * * *`
             case minute !== "*" && hour !== "*" && dayOfMonth !== "*" && month === "*" && dayOfWeek === "*":
