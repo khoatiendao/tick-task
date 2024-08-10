@@ -22,6 +22,15 @@ const cronRoutes = require('./src/routes/cronRoutes');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin","*");
+    res.setHeader("Access-Control-Allow-Methods","GET, POST, PUT, OPTIONS, PATCH, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type,x-access-token");
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    res.setHeader("optionsSucessStatus", 200)
+    next()
+});
+
 // Api document
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specsDoc));
 
