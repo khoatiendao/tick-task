@@ -7,18 +7,13 @@ const userService = require('../service/userService')
 const {generateUUIDWithCharacter} = require('../utils/generateUUID')
 
 
+
 const registerUser = async (req, res) => {
     try {
         const _id = generateUUIDWithCharacter('US')
-        const name = req.body.name
-        const email = req.body.email
-        const password = req.body.password
-        const gender = req.body.gender
-        const phone = req.body.phone
-        const address = req.body.address
-        const role = req.body.role
+        const {name, email, password, gender, phone, address, photo} = req.body;
         const checkEmail = await Model.userModel.findOne({ email });
-        if (!name || !email || !password || !gender || !phone || !address || !role) {
+        if (!name || !email || !password || !gender || !phone || !address) {
             return res.status(400).json({ message: 'Please fill all information' })
         } else if (!validator.isEmail(email)) {
             return res.status(400).json({ message: 'Email must be a valid email' })
@@ -32,7 +27,7 @@ const registerUser = async (req, res) => {
             const passwordHash = await bcrypt.hash(password, salt);
             const sendEmail = emailSend.send(email, name)
             if (sendEmail) {
-                const newUser = { _id: _id, name: name, email: email, password: passwordHash, gender: gender, phone: phone, address: address, active: 0, role: role }
+                const newUser = { _id: _id, name: name, email: email, password: passwordHash, gender: gender, phone: phone, address: address, photo: photo ,active: 0, role: role }
                 const result = await Model.userModel.create(newUser);
                 if (result) {
                     return res.status(201).json({ message: 'Register Successfull - Please check your mail to verify', user: newUser})

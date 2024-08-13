@@ -168,10 +168,18 @@ const user = mongoose.Schema({
     },
     gender: String,
     phone: Number,
+    country: {
+        type: String,
+        required: true
+    },
     address: {
         type: String,
         minlength: 3,
         maxlength: 1024,
+    },
+    photo: {
+        type: String,
+        required: false
     },
     active: {
         type: Number,
