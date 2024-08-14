@@ -177,6 +177,18 @@ const user = mongoose.Schema({
         minlength: 3,
         maxlength: 1024,
     },
+    ward: {
+        type: String,
+        required: true
+    },
+    district: {
+        type: String,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true
+    },
     photo: {
         type: String,
         required: false
@@ -184,6 +196,7 @@ const user = mongoose.Schema({
     active: {
         type: Number,
         enum: [0, 1],
+        default: 0,
         required: true
     },
     role: {
