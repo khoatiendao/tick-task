@@ -40,7 +40,7 @@ const createMail = {
               reject('Error loading templates');
             } else {
               const tokenEmail = jwtToken.generatedTokenMail(email);
-              const url = `http://localhost:8443/api/v1/user/confirmation/${tokenEmail}`;
+              const url = `http://localhost:5173/verify/${tokenEmail}`;
               const template = hbs.compile(html);
               const htmlToSend = template({ url, name });
               const mailOptions = {
@@ -58,12 +58,6 @@ const createMail = {
                     contentDisposition: 'inline', // hình ảnh sẽ hiển thị ở bên trong mail chứ không là tệp đính kèm
                     cid: 'logo@png.cid', // Content-ID cho ảnh
                   },
-                  // {
-                  //   filename: 'banner.svg',
-                  //   path: path.join(__dirname, '../../resource/assets/img/banner.svg'),
-                  //   contentDisposition: 'inline', // hình ảnh sẽ hiển thị ở bên trong mail chứ không là tệp đính kèm
-                  //   cid: 'banner@svg.cid', // Content-ID cho ảnh
-                  // }
                 ],
               };
 

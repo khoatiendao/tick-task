@@ -5,6 +5,9 @@ const jwtToken = require('../config/configJwt');
 const emailSend = require('../config/configMail');
 const userService = require('../service/userService');
 const { generateUUIDWithCharacter } = require('../utils/generateUUID');
+const dotenv = require('dotenv')
+dotenv.config()
+const axios = require('axios')
 
 const registerUser = async (req, res) => {
   try {
@@ -119,7 +122,28 @@ const getIdUser = async (req, res) => {
 
 const emailVerifyUser = async (req, res) => {
   const email = req.decoded.email;
-  try {
+  const captchaToken = req.body.captchaToken
+  console.log(email);
+  console.log(captchaToken);
+
+  if(!email || !captchaToken) {
+    return res.status(400).json({message: 'Invalid token, email, or CAPTCHA not provide'})
+  }
+
+  try { 
+    const captchaResponse = await axios.post('https://www.google.com/recaptcha/api/siteverify',{}, {
+      params: {
+        secret: process.env.REACT_APP_SITE_KEY_CAPTCHA,
+        response: captchaToken
+      }
+    })
+
+    console.log(captchaResponse);
+    if(!captchaResponse.data.success) {
+      // console.log(captchaResponse);
+      return res.status(400).json({success: false ,message: 'Captcha vertification failed'})
+    }
+
     const user = { email: email };
     const newValues = { active: 1 };
     const result = await Model.userModel.findOneAndUpdate(user, newValues, {

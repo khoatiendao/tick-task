@@ -263,7 +263,7 @@ routes.put("/role/:_id", configJwt.checkTokenVerify, authorizeRole('SuperAdmin')
  *      500:
  *        description: Server Error
  */
-routes.get(
+routes.post(
   '/confirmation/:tokenEmail',
   configJwt.checkTokenMailVerify,
   emailVerifyUser
