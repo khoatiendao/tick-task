@@ -123,24 +123,17 @@ const getIdUser = async (req, res) => {
 const emailVerifyUser = async (req, res) => {
   const email = req.decoded.email;
   const captchaToken = req.body.captchaToken
-  console.log(email);
-  console.log(captchaToken);
+
+  const secret = process.env.APP_SITE_KEY_reCAPTCHA
 
   if(!email || !captchaToken) {
     return res.status(400).json({message: 'Invalid token, email, or CAPTCHA not provide'})
   }
 
   try { 
-    const captchaResponse = await axios.post('https://www.google.com/recaptcha/api/siteverify',{}, {
-      params: {
-        secret: process.env.REACT_APP_SITE_KEY_CAPTCHA,
-        response: captchaToken
-      }
-    })
+    const captchaResponse = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captchaToken}`)
 
-    console.log(captchaResponse);
     if(!captchaResponse.data.success) {
-      // console.log(captchaResponse);
       return res.status(400).json({success: false ,message: 'Captcha vertification failed'})
     }
 
@@ -150,9 +143,7 @@ const emailVerifyUser = async (req, res) => {
       new: true,
     });
     if (result) {
-      return res
-        .status(200)
-        .json({ message: 'Confirmed Mail Successfull', confirmed: newValues });
+      return res.status(200).json({success: true, message: 'Confirmed Mail Successfull', confirmed: newValues });
     } else {
       return res.status(400).json({ message: 'Confirmed Mail Failed' });
     }
