@@ -41,8 +41,7 @@ const JwToken = {
         if(tokenEmail) {
             jwt.verify(tokenEmail, jwtKey, {algorithms: ['HS256']}, (err, decoded) => {
                 if(err) {
-                    console.log(err)
-                    return res.status(400).json({success: false, message: 'Something wrong about verify token mail'})
+                    return res.status(400).json({success: false, message: err})
                 } else {
                     req.decoded = decoded;
                     next();

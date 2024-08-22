@@ -139,11 +139,9 @@ const emailVerifyUser = async (req, res) => {
 
     const user = { email: email };
     const newValues = { active: 1 };
-    const result = await Model.userModel.findOneAndUpdate(user, newValues, {
-      new: true,
-    });
+    const result = await Model.userModel.findOneAndUpdate(user, newValues, {new: true}).select('-_id -name -gender -phone -country -address -ward -district -city -photo -role');
     if (result) {
-      return res.status(200).json({success: true, message: 'Confirmed Mail Successfull', confirmed: newValues });
+      return res.status(200).json({success: true, message: 'Confirmed Mail Successfull', confirmed: result });
     } else {
       return res.status(400).json({ message: 'Confirmed Mail Failed' });
     }
@@ -173,7 +171,7 @@ const loginUser = async (req, res) => {
       if (matchPassword) {
         if (findUser.active === 1) {
           const token = jwtToken.generatedToken(_id, role);
-          res.status(200).json({ message: 'Login Successfull', token: token });
+          res.status(200).json({success: true, message: 'Login Successfull', token: token });
         } else {
           res.status(400).json({ message: 'This email does not verify' });
         }
