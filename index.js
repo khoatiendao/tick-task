@@ -16,11 +16,13 @@ const {swaggerUI, specsDoc} = require('./src/utils/doc/apiDoc')
 const userCountRoutes = require('./src/routes/SA routes/userCountRoutes')
 const taskCountRoutes = require('./src/routes/SA routes/taskCountRoutes')
 const cronRoutes = require('./src/routes/cronRoutes');
+const errorHandle = require('./src/middleware/error.handle');
 // const socketIo = require('socket.io')
 
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(errorHandle)
 
 app.use(function(req, res, next) {
     res.setHeader("Access-Control-Allow-Origin","*");
