@@ -8,7 +8,7 @@ const { generateUUIDWithCharacter } = require('../utils/generateUUID');
 const dotenv = require('dotenv')
 dotenv.config()
 const axios = require('axios');
-const errorResponse = require('../../helpers/errorResponse');
+const errorResponse = require('../helpers/errorResponse');
 
 const registerUser = async (req, res) => {
   try {
