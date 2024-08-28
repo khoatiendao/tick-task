@@ -12,6 +12,7 @@ const {
 } = require('../controllers/userController');
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
+const asyncHandle = require('../middleware/asyncHandle')
 
 /** POST Methods */
 /**
@@ -117,7 +118,7 @@ routes.post('/register', registerUser);
  *      500:
  *        description: Server Error
  */
-routes.post('/login', loginUser);
+routes.post('/login', asyncHandle(loginUser));
 
 /** GET Methods */
 /**

@@ -7,7 +7,8 @@ const userService = require('../service/userService');
 const { generateUUIDWithCharacter } = require('../utils/generateUUID');
 const dotenv = require('dotenv')
 dotenv.config()
-const axios = require('axios')
+const axios = require('axios');
+const errorResponse = require('../../helpers/errorResponse');
 
 const registerUser = async (req, res) => {
   try {
@@ -67,13 +68,7 @@ const registerUser = async (req, res) => {
         };
         const result = await Model.userModel.create(newUser);
         if (result) {
-          return res
-            .status(201)
-            .json({
-              message:
-                'Register Successfull - Please check your mail to verify',
-              user: newUser,
-            });
+          return res.status(201).json({message: 'Register Successfull - Please check your mail to verify', user: newUser});
         } else {
           return res.status(400).json({ message: 'Register Failed' });
         }
@@ -152,33 +147,35 @@ const emailVerifyUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  try {
-    const email = req.body.email;
-    const password = req.body.password;
-    const findUser = await userService.findEmailUser(email);
-    if (!email || !password) {
-      res.status(400).json({ message: 'Please type email and password' });
-    } else if (!validator.isEmail(email)) {
-      res.status(400).json({ message: 'Email must be a valid email' });
-    } else if (!validator.isStrongPassword(password)) {
-      res.status(400).json({ message: 'Password must be strong' });
-    } else if (!findUser) {
-      res.status(400).json({ message: 'This email is not exist' });
-    } else {
-      const _id = findUser._id;
-      const role = findUser.role;
-      const matchPassword = await bcrypt.compare(password, findUser.password);
-      if (matchPassword) {
-        if (findUser.active === 1) {
-          const token = jwtToken.generatedToken(_id, role);
-          res.status(200).json({success: true, message: 'Login Successfull', token: token });
-        } else {
-          res.status(400).json({ message: 'This email does not verify' });
-        }
+  const email = req.body.email;
+  const password = req.body.password;
+  const findUser = await userService.findEmailUser(email);
+  if (!email || !password) {
+    throw new errorResponse(400, "Please type email and password")
+  } else if (!validator.isEmail(email)) {
+    throw new errorResponse(400, "Email must be a valid email")
+  } else if (!validator.isStrongPassword(password)) {
+    throw new errorResponse(400, "Password must be strong")
+  } else if (!findUser) {
+    throw new errorResponse(400, "This email is not exist")
+  } else {
+    const _id = findUser._id;
+    const role = findUser.role;
+    const matchPassword = await bcrypt.compare(password, findUser.password);
+    if (matchPassword) {
+      if (findUser.active === 1) {
+        const token = jwtToken.generatedToken(_id, role);
+        res.status(200).json({success: true, message: 'Login Successfull', token: token });
       } else {
-        res.status(400).json({ message: 'Wrong Password' });
+        // res.status(400).json({ message: 'This email does not verify' });
+        throw new errorResponse(400, "This email does not verify")
       }
+    } else {
+      // res.status(400).json({ message: 'Wrong Password' });
+      throw new errorResponse(400, "Wrong Password")
     }
+  }
+  try {
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
     console.log(error);
