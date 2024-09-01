@@ -1,38 +1,41 @@
+const { StatusCodes, getReasonPhrase } = require('http-status-codes')
 module.exports = (err, req, res, next) => {
   let error = { ...err };
 
   if (err?.name === 'CastError') {
-    error.statusCode = 404;
+    error.statusCode = StatusCodes.NOT_FOUND;
     error.message = 'Resource not found'
   }
 
   if (err.statusCode === 400) {
-    error.statusCode = 400;
-    error.message = err.message;
+    error.statusCode = StatusCodes.BAD_REQUEST;
+    error.message = err.message || getReasonPhrase(StatusCodes.BAD_REQUEST);
   }
 
   if (err.statusCode === 401) {
-    error.statusCode = 401;
-    error.message = err.message
+    error.statusCode = StatusCodes.UNAUTHORIZED;
+    error.message = err.message || getReasonPhrase(StatusCodes.UNAUTHORIZED);
   }
 
   if (err.statusCode === 403) {
-    error.statusCode = 403;
-    error.message = err.message
+    error.statusCode = StatusCodes.FORBIDDEN;
+    error.message = err.message || getReasonPhrase(StatusCodes.FORBIDDEN)
   }
 
   if (err.statusCode === 404) {
-    error.statusCode = 404;
-    error.message = err.message
+    error.statusCode = StatusCodes.NOT_FOUND;
+    error.message = err.message || getReasonPhrase(StatusCodes.NOT_FOUND)
   }
 
   if (err.code === 11000) {
-    err.statusCode = 400;
+    err.statusCode = StatusCodes.BAD_REQUEST;
     err.message = 'Duplicate resource'
   }
 
-  const statusCode = error.statusCode || 500;
-  const message = error.message || err.message || 'Internal Server Error';
+  const statusCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
+  const message = error.message || err.message || getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR);
+  const stack = error.stack || err.stack
+  console.log(stack);
 
   res.status(statusCode).json({
     statusCode,

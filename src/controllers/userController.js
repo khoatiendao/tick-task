@@ -167,18 +167,11 @@ const loginUser = async (req, res) => {
         const token = jwtToken.generatedToken(_id, role);
         res.status(200).json({success: true, message: 'Login Successfull', token: token });
       } else {
-        // res.status(400).json({ message: 'This email does not verify' });
         throw new errorResponse(400, "This email does not verify")
       }
     } else {
-      // res.status(400).json({ message: 'Wrong Password' });
       throw new errorResponse(400, "Wrong Password")
     }
-  }
-  try {
-  } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
-    console.log(error);
   }
 };
 
