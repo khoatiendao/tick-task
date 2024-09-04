@@ -21,7 +21,11 @@ const userService = {
             name: user.name,
             gender: user.gender,
             phone: user.phone,
-            address: user.address
+            country: user.country,
+            address: user.address,
+            district: user.district,
+            ward: user.ward,
+            city: user.city
         }
         const result = await Model.userModel.findByIdAndUpdate(_id, newValues, {new: true}).select('-email -password -role -active')
         return result;

@@ -196,7 +196,10 @@ const updateProfileUser = async (req, res) => {
     const gender = req.body.gender;
     const phone = req.body.phone;
     const address = req.body.address;
-    if (!name || !gender || !phone || !address) {
+    const district = req.body.district;
+    const ward = req.body.ward;
+    const city = req.body.city;
+    if (!name || !gender || !phone || !address || !district || !ward || !city) {
       return res.status(400).json({ message: 'Please fill all information' });
     } else {
       const user = {
@@ -204,6 +207,10 @@ const updateProfileUser = async (req, res) => {
         gender: gender,
         phone: phone,
         address: address,
+        country: country,
+        district: district,
+        ward: ward,
+        city: city
       };
       const result = await userService.update(_id, user);
       if (result) {
