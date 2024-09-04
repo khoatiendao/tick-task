@@ -70,7 +70,7 @@ const asyncHandle = require('../middleware/asyncHandle')
  *      500:
  *        description: Server Error
  */
-routes.post('/register', registerUser);
+routes.post('/register', asyncHandle(registerUser));
 
 /** POST Methods */
 /**
@@ -138,7 +138,7 @@ routes.post('/login', asyncHandle(loginUser));
  *      500:
  *        description: Server Error
  */
-routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'SuperAdmin'), getAllUser)
+routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'SuperAdmin'), asyncHandle(getAllUser))
 
 /** GET Methods */
 /**
@@ -162,7 +162,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'SuperAdmin')
  *      500:
  *        description: Server Error
  */
-routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', 'SuperAdmin'), getIdUser)
+routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', 'SuperAdmin'), asyncHandle(getIdUser))
 
 /** PUT Methods */
 /**
@@ -206,7 +206,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', '
  *      500:
  *        description: Server Error
  */
-routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', 'SuperAdmin'), updateProfileUser)
+routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', 'SuperAdmin'), asyncHandle(updateProfileUser))
 
 /** PUT Methods */
 /**
@@ -241,7 +241,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user', '
  *      500:
  *        description: Server Error
  */
-routes.put("/role/:_id", configJwt.checkTokenVerify, authorizeRole('SuperAdmin'), updateRoleForUser)
+routes.put("/role/:_id", configJwt.checkTokenVerify, authorizeRole('SuperAdmin'), asyncHandle(updateRoleForUser))
 
 /** GET Methods */
 /**
