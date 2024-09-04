@@ -267,7 +267,7 @@ routes.put("/role/:_id", configJwt.checkTokenVerify, authorizeRole('SuperAdmin')
 routes.post(
   '/confirmation/:tokenEmail',
   configJwt.checkTokenMailVerify,
-  emailVerifyUser
+  asyncHandle(emailVerifyUser)
 );
 
 /** GET Methods */
@@ -292,7 +292,7 @@ routes.get(
   '/token',
   configJwt.checkTokenVerify,
   authorizeRole('admin', 'user', 'SuperAdmin'),
-  checkToken
+  asyncHandle(checkToken)
 );
 
 module.exports = routes;

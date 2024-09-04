@@ -49,22 +49,25 @@ const registerUser = async (req, res) => {
     const saltRound = 12;
     const salt = await bcrypt.genSalt(saltRound);
     const passwordHash = await bcrypt.hash(password, salt);
+    const newUser = {
+      _id: _id,
+      name: name,
+      email: email,
+      password: passwordHash,
+      gender: gender,
+      phone: phone,
+      country: country,
+      address: address,
+      ward: ward,
+      district: district,
+      city: city,
+      photo: photo,
+    };
+    if(!newUser) {
+      throw new errorResponse(400, 'Please check form register')
+    }
     const sendEmail = emailSend.send(email, name);
     if (sendEmail) {
-      const newUser = {
-        _id: _id,
-        name: name,
-        email: email,
-        password: passwordHash,
-        gender: gender,
-        phone: phone,
-        country: country,
-        address: address,
-        ward: ward,
-        district: district,
-        city: city,
-        photo: photo,
-      };
       const result = await Model.userModel.create(newUser);
       if (result) {
         return res.status(201).json({message: 'Register Successfull - Please check your mail to verify', user: newUser});
@@ -103,27 +106,22 @@ const emailVerifyUser = async (req, res) => {
   const secret = process.env.APP_SITE_KEY_reCAPTCHA
 
   if(!email || !captchaToken) {
-    return res.status(400).json({message: 'Invalid token, email, or CAPTCHA not provide'})
+    throw new errorResponse(400, 'Invalid token, email, or CAPTCHA not provide')
   }
 
-  try { 
-    const captchaResponse = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captchaToken}`)
+  const captchaResponse = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${captchaToken}`)
 
-    if(!captchaResponse.data.success) {
-      return res.status(400).json({success: false ,message: 'Captcha vertification failed'})
-    }
+  if(!captchaResponse.data.success) {
+    throw new errorResponse(400, 'Captcha vertification failed')
+  }
 
-    const user = { email: email };
-    const newValues = { active: 1 };
-    const result = await Model.userModel.findOneAndUpdate(user, newValues, {new: true}).select('-_id -name -gender -phone -country -address -ward -district -city -photo -role');
-    if (result) {
-      return res.status(200).json({success: true, message: 'Confirmed Mail Successfull', confirmed: result });
-    } else {
-      return res.status(400).json({ message: 'Confirmed Mail Failed' });
-    }
-  } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
-    console.log(error);
+  const user = { email: email };
+  const newValues = { active: 1 };
+  const result = await Model.userModel.findOneAndUpdate(user, newValues, {new: true}).select('-_id -name -gender -phone -country -address -ward -district -city -photo -role');
+  if (result) {
+    return res.status(200).json({success: true, message: 'Confirmed Mail Successfull', confirmed: result });
+  } else {
+    throw new errorResponse(400, 'Confirmed Mail Failed')
   }
 };
 
@@ -157,16 +155,11 @@ const loginUser = async (req, res) => {
 };
 
 const checkToken = async (req, res) => {
-  try {
-    const token = req.headers['auth-token-bearer'];
-    if (!token) {
-      return res.status(400).json({ message: 'Token is ExpiresIn' });
-    } else {
-      return res.status(200).json({ message: 'Token is valid' });
-    }
-  } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
-    console.log(error);
+  const token = req.headers['auth-token-bearer'];
+  if (!token) {
+    throw new errorResponse(400, 'Token is ExpiresIn')
+  } else {
+    return res.status(200).json({ message: 'Token is valid' });
   }
 };
 

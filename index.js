@@ -17,6 +17,7 @@ const userCountRoutes = require('./src/routes/SA routes/userCountRoutes')
 const taskCountRoutes = require('./src/routes/SA routes/taskCountRoutes')
 const cronRoutes = require('./src/routes/cronRoutes');
 const errorHandle = require('./src/middleware/errorHandle');
+const logger = require('./src/middleware/logHandle');
 // const socketIo = require('socket.io')
 
 
@@ -32,6 +33,7 @@ app.use(function(req, res, next) {
     next()
 });
 
+app.use(logger)
 // Api document
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specsDoc));
 

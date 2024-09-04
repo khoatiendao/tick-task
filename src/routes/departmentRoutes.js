@@ -8,6 +8,7 @@ const {
 } = require('../controllers/departmentController');
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
+const asyncHandle = require('../middleware/asyncHandle')
 
 /** POST Methods */
 /**
@@ -39,12 +40,7 @@ const { authorizeRole } = require('../config/configAuthRole');
  *      500:
  *        description: Server Error
  */
-routes.post(
-  '/createDepartment',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin'),
-  createOneDepartment
-);
+routes.post('/createDepartment', configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(createOneDepartment));
 
 /** GET Methods */
 /**
@@ -64,12 +60,7 @@ routes.post(
  *      500:
  *        description: Server Error
  */
-routes.get(
-  '/',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin'),
-  getAllDepartment
-);
+routes.get('/', configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(getAllDepartment));
 
 /** GET Methods */
 /**
@@ -93,12 +84,7 @@ routes.get(
  *      500:
  *        description: Server Error
  */
-routes.get(
-  '/:_id',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin', 'user'),
-  getOneDepartment
-);
+routes.get('/:_id',configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getOneDepartment));
 
 /** DELETE Methods */
 /**
@@ -122,11 +108,6 @@ routes.get(
  *      500:
  *        description: Server Error
  */
-routes.delete(
-  '/:_id',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin'),
-  deleteOneDepartment
-);
+routes.delete('/:_id', configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(deleteOneDepartment));
 
 module.exports = routes;

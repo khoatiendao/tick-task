@@ -3,6 +3,7 @@ const routes = express.Router()
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
 const {createOneBoardList, getOneBoardList, getAllBoardList, updateOneBoardList, deleteOneBoardList, getAllBoardListWithBoardAndDepartment, getIdBoardListWithBoardAndDepartment} = require('../controllers/boardListController')
+const asyncHandle = require('../middleware/asyncHandle')
 
 
 /** POST Methods */
@@ -38,7 +39,7 @@ const {createOneBoardList, getOneBoardList, getAllBoardList, updateOneBoardList,
  *      500:
  *        description: Server Error
  */
-routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createOneBoardList)
+routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(createOneBoardList))
 
 /** GET Methods */
 /**
@@ -58,7 +59,7 @@ routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), creat
  *      500:
  *        description: Server Error
  */
-routes.get("/board/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllBoardListWithBoardAndDepartment)
+routes.get("/board/department", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getAllBoardListWithBoardAndDepartment))
 
 
 /** GET Methods */
@@ -83,7 +84,7 @@ routes.get("/board/department", configJwt.checkTokenVerify, authorizeRole('admin
  *      500:
  *        description: Server Error
  */
-routes.get("/board/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getIdBoardListWithBoardAndDepartment)
+routes.get("/board/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getIdBoardListWithBoardAndDepartment))
 
 /** GET Methods */
 /**
@@ -107,7 +108,7 @@ routes.get("/board/department/:_id", configJwt.checkTokenVerify, authorizeRole('
  *      500:
  *        description: Server Error
  */
-routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getOneBoardList)
+routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getOneBoardList))
 
 /** GET Methods */
 /**
@@ -127,7 +128,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *      500:
  *        description: Server Error
  */
-routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllBoardList)
+routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getAllBoardList))
 
 /** PUT Methods */
 /**
@@ -164,7 +165,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *      500:
  *        description: Server Error
  */
-routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOneBoardList)
+routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(updateOneBoardList))
 
 /** DELETE Methods */
 /**
@@ -188,6 +189,6 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOn
  *      500:
  *        description: Server Error
  */
-routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteOneBoardList)
+routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(deleteOneBoardList))
 
 module.exports = routes

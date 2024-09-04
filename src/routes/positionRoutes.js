@@ -3,6 +3,8 @@ const routes = express.Router()
 const {createOnePosition, getOnePosition, getAllPosition, updateOnePosition, deleteOnePosition} = require('../controllers/positionController')
 const configJwt = require('../config/configJwt')
 const { authorizeRole } = require('../config/configAuthRole');
+const asyncHandle = require('../middleware/asyncHandle')
+
 
 
 /** POST Methods */
@@ -35,7 +37,7 @@ const { authorizeRole } = require('../config/configAuthRole');
  *      500:
  *        description: Server Error
  */
-routes.post("/createPosition", configJwt.checkTokenVerify, authorizeRole('admin'), createOnePosition)
+routes.post("/createPosition", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(createOnePosition))
 
 /** GET Methods */
 /**
@@ -59,7 +61,7 @@ routes.post("/createPosition", configJwt.checkTokenVerify, authorizeRole('admin'
  *      500:
  *        description: Server Error
  */
-routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), getOnePosition)
+routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(getOnePosition))
 
 /** GET Methods */
 /**
@@ -79,7 +81,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), getOnePo
  *      500:
  *        description: Server Error
  */
-routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getAllPosition)
+routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(getAllPosition))
 
 /** PUT Methods */
 /**
@@ -115,7 +117,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin'), getAllPositi
  *      500:
  *        description: Server Error
  */
-routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOnePosition)
+routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(updateOnePosition))
 
 /** DELETE Methods */
 /**
@@ -139,7 +141,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateOn
  *      500:
  *        description: Server Error
  */
-routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteOnePosition)
+routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(deleteOnePosition))
 
 
 module.exports = routes

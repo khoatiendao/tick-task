@@ -13,6 +13,8 @@ const {
     addMemberforTaskListWithTaskAssignment,
     deleteOneMemberWithTaskAssignment} = require('../controllers/taskAssignmentController')
 
+const asyncHandle = require('../middleware/asyncHandle')
+
 /** POST Methods */
 /**
  * @openapi
@@ -48,7 +50,7 @@ const {
  *      500:
  *        description: Server Error
  */
-routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createTaskAssignment)
+routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(createTaskAssignment))
 
 /** POST Methods */
 /**
@@ -84,7 +86,7 @@ routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), creat
  *      500:
  *        description: Server Error
  */
-routes.post("/:_id/member/add", configJwt.checkTokenVerify, authorizeRole('admin'), addMemberforTaskListWithTaskAssignment)
+routes.post("/:_id/member/add", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(addMemberforTaskListWithTaskAssignment))
 
 /** GET Methods */
 /**
@@ -108,7 +110,7 @@ routes.post("/:_id/member/add", configJwt.checkTokenVerify, authorizeRole('admin
  *      500:
  *        description: Server Error
  */
-routes.get("/member/:member_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), findAllTaskListWithMemberId)
+routes.get("/member/:member_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(findAllTaskListWithMemberId))
 
 /** GET Methods */
 /**
@@ -132,7 +134,7 @@ routes.get("/member/:member_id", configJwt.checkTokenVerify, authorizeRole('admi
  *      500:
  *        description: Server Error
  */
-routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getTaskAssignmentById)
+routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getTaskAssignmentById))
 
 /** GET Methods */
 /**
@@ -152,7 +154,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *      500:
  *        description: Server Error
  */
-routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllTaskAssignment)
+routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getAllTaskAssignment))
 
 /** PUT Methods */
 /**
@@ -193,7 +195,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *      500:
  *        description: Server Error
  */
-routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateTaskAssignment)
+routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(updateTaskAssignment))
 
 /** DELETE Methods */
 /**
@@ -217,7 +219,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateTa
  *      500:
  *        description: Server Error
  */
-routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteTaskAssignment)
+routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(deleteTaskAssignment))
 
 /** DELETE Methods */
 /**
@@ -244,7 +246,7 @@ routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), delet
  *      500:
  *        description: Server Error
  */
-routes.delete("/delete-taskList/:_id/:taskList_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteOneTaskListWithTaskAssignment)
+routes.delete("/delete-taskList/:_id/:taskList_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(deleteOneTaskListWithTaskAssignment))
 
 /** DELETE Methods */
 /**
@@ -271,7 +273,7 @@ routes.delete("/delete-taskList/:_id/:taskList_id", configJwt.checkTokenVerify, 
  *      500:
  *        description: Server Error
  */
-routes.delete("/delete-member/:_id/:member_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteOneMemberWithTaskAssignment)
+routes.delete("/delete-member/:_id/:member_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(deleteOneMemberWithTaskAssignment))
 
 
 module.exports = routes;

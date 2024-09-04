@@ -14,6 +14,8 @@ const {
     getTaskListWithStatus,
     getTaskListWithDueDate,
     updateDateTaskList} = require('../controllers/taskListController')
+const asyncHandle = require('../middleware/asyncHandle')
+
 
 
 /** POST Methods */
@@ -63,7 +65,7 @@ const {
  *      500:
  *        description: Server Error
  */
-routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), createOneTaskList)
+routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(createOneTaskList))
 
 /** GET Methods */
 /**
@@ -91,7 +93,7 @@ routes.post("/create", configJwt.checkTokenVerify, authorizeRole('admin'), creat
  *      500:
  *        description: Server Error
  */
-routes.get("/filter", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getTaskListWithStatus)
+routes.get("/filter", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getTaskListWithStatus))
 
 /** GET Methods */
 /**
@@ -119,7 +121,7 @@ routes.get("/filter", configJwt.checkTokenVerify, authorizeRole('admin', 'user')
  *      500:
  *        description: Server Error
  */
-routes.get("/duedate/filter", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getTaskListWithDueDate)
+routes.get("/duedate/filter", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getTaskListWithDueDate))
 
 /** GET Methods */
 /**
@@ -139,7 +141,7 @@ routes.get("/duedate/filter", configJwt.checkTokenVerify, authorizeRole('admin',
  *      500:
  *        description: Server Error
  */
-routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('admin','user'), getAllTaskListWithBoardList)
+routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('admin','user'), asyncHandle(getAllTaskListWithBoardList))
 
 /** GET Methods */
 /**
@@ -163,7 +165,7 @@ routes.get("/boardList/", configJwt.checkTokenVerify, authorizeRole('admin','use
  *      500:
  *        description: Server Error
  */
-routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole('admin','user'), getAllTaskListWithBoardListParam)
+routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole('admin','user'), asyncHandle(getAllTaskListWithBoardListParam))
 
 /** GET Methods */
 /**
@@ -187,7 +189,7 @@ routes.get("/boardList/:boardList_id", configJwt.checkTokenVerify, authorizeRole
  *      500:
  *        description: Server Error
  */
-routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getOneTaskList)
+routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getOneTaskList))
 
 /** GET Methods */
 /**
@@ -207,7 +209,7 @@ routes.get("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *      500:
  *        description: Server Error
  */
-routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllTaskList)
+routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getAllTaskList))
 
 /** PUT Methods */
 /**
@@ -260,7 +262,7 @@ routes.get("/", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getA
  *      500:
  *        description: Server Error
  */
-routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateOneTaskList)
+routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(updateOneTaskList))
 
 /** PUT Methods */
 /**
@@ -295,7 +297,7 @@ routes.put("/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), 
  *      500:
  *        description: Server Error
  */
-routes.put("/status/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), updateStatusTaskList)
+routes.put("/status/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(updateStatusTaskList))
 
 /** PUT Methods */
 /**
@@ -333,7 +335,7 @@ routes.put("/status/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'u
  *      500:
  *        description: Server Error
  */
-routes.put("/date/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), updateDateTaskList)
+routes.put("/date/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(updateDateTaskList))
 
 /** DELETE Methods */
 /**
@@ -357,6 +359,6 @@ routes.put("/date/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), upd
  *      500:
  *        description: Server Error
  */
-routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), deleteTaskList)
+routes.delete("/:_id", configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(deleteTaskList))
 
 module.exports = routes;

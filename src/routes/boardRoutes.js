@@ -11,6 +11,7 @@ const {
 } = require('../controllers/boardController');
 const configJwt = require('../config/configJwt');
 const { authorizeRole } = require('../config/configAuthRole');
+const asyncHandle = require('../middleware/asyncHandle')
 
 /** POST Methods */
 /**
@@ -45,12 +46,7 @@ const { authorizeRole } = require('../config/configAuthRole');
  *      500:
  *        description: Server Error
  */
-routes.post(
-  '/createBoard',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin'),
-  postBoard
-);
+routes.post('/createBoard', configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(postBoard));
 
 /** GET Methods */
 /**
@@ -70,7 +66,7 @@ routes.post(
  *      500:
  *        description: Server Error
  */
-routes.get('/department', configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getAllBoardWithDepartment);
+routes.get('/department', configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getAllBoardWithDepartment));
 
 /** GET Methods */
 /**
@@ -94,7 +90,7 @@ routes.get('/department', configJwt.checkTokenVerify, authorizeRole('admin', 'us
  *      500:
  *        description: Server Error
  */
-routes.get("/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), getBoardByIdWithDepartment)
+routes.get("/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getBoardByIdWithDepartment))
 
 /** GET Methods */
 /**
@@ -118,12 +114,7 @@ routes.get("/department/:_id", configJwt.checkTokenVerify, authorizeRole('admin'
  *      500:
  *        description: Server Error
  */
-routes.get(
-  '/:_id',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin', 'user'),
-  getBoardById
-);
+routes.get('/:_id', configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getBoardById));
 
 /** GET Methods */
 /**
@@ -143,12 +134,7 @@ routes.get(
  *      500:
  *        description: Server Error
  */
-routes.get(
-  '/',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin', 'user'),
-  getAllBoard
-);
+routes.get('/', configJwt.checkTokenVerify, authorizeRole('admin', 'user'), asyncHandle(getAllBoard));
 
 /** PUT Methods */
 /**
@@ -187,12 +173,7 @@ routes.get(
  *      500:
  *        description: Server Error
  */
-routes.put(
-  '/:_id',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin'),
-  updateBoardById
-);
+routes.put('/:_id', configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(updateBoardById));
 
 /** DELETE Methods */
 /**
@@ -216,11 +197,6 @@ routes.put(
  *      500:
  *        description: Server Error
  */
-routes.delete(
-  '/:_id',
-  configJwt.checkTokenVerify,
-  authorizeRole('admin'),
-  deleteBoardById
-);
+routes.delete('/:_id', configJwt.checkTokenVerify, authorizeRole('admin'), asyncHandle(deleteBoardById));
 
 module.exports = routes;
