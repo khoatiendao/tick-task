@@ -2,7 +2,7 @@ const Model = require('../models/userModel')
 
 const userService = {
     async findUserById(_id) {
-        const result = await Model.userModel.findById(_id).exec()
+        const result = await Model.userModel.findById(_id).select('-email -password -role -active')
         return result;
     },
 

@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(function(req, res, next) {
     res.setHeader("Access-Control-Allow-Origin","*");
     res.setHeader("Access-Control-Allow-Methods","GET, POST, PUT, OPTIONS, PATCH, DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type,x-access-token");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type,auth-token-bearer");
     res.setHeader("Access-Control-Allow-Credentials", true);
     res.setHeader("optionsSucessStatus", 200)
     next()
