@@ -3,7 +3,7 @@ const path = require('path')
 const iconv = require('iconv-lite')
 
 const changPhoto = {
-    toUrl(photo) {
+    toUrl() {
         const storage = multer.diskStorage({
             destination: function(req, file, cb) {
                 cb(null, 'uploads/');

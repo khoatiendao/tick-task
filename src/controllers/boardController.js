@@ -76,7 +76,7 @@ const getAllBoardWithDepartment = async(req, res) => {
     const result = await boardService.findBoardWithDepartment();
     if(result) {
         return res.status(200).json({message: 'Get all board with department successfull', board: result})
-    } else {        
+    } else {
         throw new errorResponse(400, 'Get all board with department failed')
     }
 }
