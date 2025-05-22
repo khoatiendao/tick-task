@@ -3,21 +3,21 @@ const app = express();
 const bodyParser = require('body-parser')
 require('dotenv').config()
 const PORT = process.env.PORT || 9443;
-const mongooseConnected = require('./src/config/configDatabase');
-const boardRoutes = require('./src/routes/boardRoutes')
-const departmentRoutes = require('./src/routes/departmentRoutes');
-const userRoutes = require('./src/routes/userRoutes');
-const positionRoutes = require('./src/routes/positionRoutes')
-const memberRoutes = require('./src/routes/memberRoutes')
-const boardListRoutes = require('./src/routes/boardListRoutes')
-const taskListRoutes = require('./src/routes/taskListRoutes')
-const taskAssignmentRoutes = require('./src/routes/taskAssignmentRoutes')
-const {swaggerUI, specsDoc} = require('./src/utils/doc/apiDoc')
-const userCountRoutes = require('./src/routes/SA routes/userCountRoutes')
-const taskCountRoutes = require('./src/routes/SA routes/taskCountRoutes')
-const cronRoutes = require('./src/routes/cronRoutes');
-const errorHandle = require('./src/middleware/errorHandle');
-const logger = require('./src/middleware/logHandle');
+const mongooseConnected = require('./config/configDatabase');
+const boardRoutes = require('./routes/boardRoutes')
+const departmentRoutes = require('./routes/departmentRoutes');
+const userRoutes = require('./routes/userRoutes');
+const positionRoutes = require('./routes/positionRoutes')
+const memberRoutes = require('./routes/memberRoutes')
+const boardListRoutes = require('./routes/boardListRoutes')
+const taskListRoutes = require('./routes/taskListRoutes')
+const taskAssignmentRoutes = require('./routes/taskAssignmentRoutes')
+const {swaggerUI, specsDoc} = require('./utils/doc/apiDoc')
+const userCountRoutes = require('./routes/SA routes/userCountRoutes')
+const taskCountRoutes = require('./routes/SA routes/taskCountRoutes')
+const cronRoutes = require('./routes/cronRoutes');
+const errorHandle = require('./middleware/errorHandle');
+const logger = require('./middleware/logHandle');
 // const socketIo = require('socket.io')
 
 
