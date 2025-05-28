@@ -9,39 +9,92 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Cài Node dependencies và chạy test
+          name: Cài Node dependencies
           command: |
             echo "🚀 Bắt đầu cài Node dependencies..."
             if ! npm install; then
               echo "❌ Cài Node dependencies thất bại."
+              curl -H "Content-Type: application/json" \
+              -X POST \
+              -d '{
+                "content": "❌ Cài Node dependencies thất bại trong project '"$CIRCLE_PROJECT_REPONAME"'"
+              }' \
+              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
               exit 1
             fi
+      - run:
+          name: Chạy test
+          command: |
             echo "🧪 Đang chạy test..."
             if ! npm test; then
               echo "❌ Test thất bại."
+              curl -H "Content-Type: application/json" \
+              -X POST \
+              -d '{
+                "content": "❌ Test thất bại trong project '"$CIRCLE_PROJECT_REPONAME"'"
+              }' \
+              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
               exit 1
             fi
+      - run:
+          name: Thông báo test thành công
+          command: |
+            curl -H "Content-Type: application/json" \
+            -X POST \
+            -d '{
+              "content": "✅ Cài dependencies & test thành công cho project '"$CIRCLE_PROJECT_REPONAME"'"
+            }' \
+            https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
 
   build-node:
     executor: node/default
     steps:
       - checkout
       - run:
-          name: Cài Node dependencies và build project
+          name: Cài Node dependencies
           command: |
             echo "🚀 Bắt đầu cài Node dependencies..."
             if ! npm install; then
               echo "❌ Cài Node dependencies thất bại trong build."
+              curl -H "Content-Type: application/json" \
+              -X POST \
+              -d '{
+                "content": "❌ Build thất bại khi cài Node dependencies trong '"$CIRCLE_PROJECT_REPONAME"'"
+              }' \
+              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
               exit 1
             fi
+      - run:
+          name: Build project
+          command: |
             echo "🔨 Đang build project..."
             if ! npm run build; then
               echo "❌ Build thất bại."
+              curl -H "Content-Type: application/json" \
+              -X POST \
+              -d '{
+                "content": "❌ Build thất bại trong '"$CIRCLE_PROJECT_REPONAME"'"
+              }' \
+              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
               exit 1
             fi
+      - run:
+          name: Lưu build output
+          command: |
+            mkdir -p ~/artifacts
+            cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
       - store_artifacts:
-          path: build
+          path: ~/artifacts
           destination: node-build
+      - run:
+          name: Thông báo build thành công
+          command: |
+            curl -H "Content-Type: application/json" \
+            -X POST \
+            -d '{
+              "content": "✅ Build thành công cho project '"$CIRCLE_PROJECT_REPONAME"'"
+            }' \
+            https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
 
 workflows:
   build-and-test:
