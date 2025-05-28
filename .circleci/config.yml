@@ -12,12 +12,18 @@ jobs:
           name: Cài Node dependencies
           command: |
             echo "🚀 Bắt đầu cài Node dependencies..."
+            curl -H "Content-Type: application/json" \
+              -X POST \
+              -d '{
+                "content": "🚀 Bắt đầu cài Node dependencies trong '"$CIRCLE_PROJECT_REPONAME"'"
+              }' \
+              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
             if ! npm install; then
               echo "❌ Cài Node dependencies thất bại trong build."
               curl -H "Content-Type: application/json" \
               -X POST \
               -d '{
-                "content": "❌ Build thất bại khi cài Node dependencies trong '"$CIRCLE_PROJECT_REPONAME"'"
+                "content": "❌ Cài thất bại khi cài Node dependencies trong '"$CIRCLE_PROJECT_REPONAME"'"
               }' \
               https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
               exit 1
@@ -26,6 +32,12 @@ jobs:
           name: Build project
           command: |
             echo "🔨 Đang build project..."
+            curl -H "Content-Type: application/json" \
+              -X POST \
+              -d '{
+                "content": "🔨 Đang build project trong '"$CIRCLE_PROJECT_REPONAME"'"
+              }' \
+              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
             if ! npm run build; then
               echo "❌ Build thất bại."
               curl -H "Content-Type: application/json" \
