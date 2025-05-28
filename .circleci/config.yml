@@ -1,72 +1,17 @@
 version: 2.1
-
 orbs:
-  node: circleci/node@5
-
+  node: circleci/node@5.1.0
 jobs:
   build-node:
     executor: node/default
+    resource_class: large
     steps:
       - checkout
-      - run:
-          name: Cài Node dependencies
-          command: |
-            echo "🚀 Bắt đầu cài Node dependencies..."
-            curl -H "Content-Type: application/json" \
-              -X POST \
-              -d '{
-                "content": "🚀 Bắt đầu cài Node dependencies trong '"$CIRCLE_PROJECT_REPONAME"'"
-              }' \
-              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
-            if ! npm install; then
-              echo "❌ Cài Node dependencies thất bại trong build."
-              curl -H "Content-Type: application/json" \
-              -X POST \
-              -d '{
-                "content": "❌ Cài thất bại khi cài Node dependencies trong '"$CIRCLE_PROJECT_REPONAME"'"
-              }' \
-              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
-              exit 1
-            fi
+      - node/install-packages
       - run:
           name: Build project
-          command: |
-            echo "🔨 Đang build project..."
-            curl -H "Content-Type: application/json" \
-              -X POST \
-              -d '{
-                "content": "🔨 Đang build project trong '"$CIRCLE_PROJECT_REPONAME"'"
-              }' \
-              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
-            if ! npm run build; then
-              echo "❌ Build thất bại."
-              curl -H "Content-Type: application/json" \
-              -X POST \
-              -d '{
-                "content": "❌ Build thất bại trong '"$CIRCLE_PROJECT_REPONAME"'"
-              }' \
-              https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
-              exit 1
-            fi
-      - run:
-          name: Lưu build output
-          command: |
-            mkdir -p ~/artifacts
-            cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
-      - store_artifacts:
-          path: ~/artifacts
-          destination: node-build
-      - run:
-          name: Thông báo build thành công
-          command: |
-            curl -H "Content-Type: application/json" \
-            -X POST \
-            -d '{
-              "content": "✅ Build thành công cho project '"$CIRCLE_PROJECT_REPONAME"'"
-            }' \
-            https://discord.com/api/webhooks/1376781493069811732/Wk3E4U6SoIIKYt8jStP_7RdH8lemBut7Do-lNVaLc7HR8c-YTzdZx42aDZhLTyk_T1TN
-
+          command: npm install && npm run build
 workflows:
-  build-and-test:
+  build_and_test:
     jobs:
       - build-node
