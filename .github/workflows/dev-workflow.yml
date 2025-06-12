@@ -1,4 +1,4 @@
-name: Build Docker Image on PR to dev
+name: Develop Github Action
 
 on:
   pull_request:
@@ -14,7 +14,7 @@ jobs:
       - name: Notify Discord - Build Started
         run: |
           curl -X POST -H "Content-Type: application/json" \
-            -d "{\"content\":\":rocket: 🔧 Build started 🔧 for PR #${{ github.event.pull_request.number }} by ${{ github.actor }}\"}" \
+            -d "{\"content\":\":rocket: Build started :rocket for PR #${{ github.event.pull_request.number }} by ${{ github.actor }}\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Checkout code
@@ -41,12 +41,12 @@ jobs:
         if: success()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-            -d "{\"content\":\":white_check_mark: ✅ Build succeeded ✅ for PR #${{ github.event.pull_request.number }}\"}" \
+            -d "{\"content\":\":white_check_mark: Build succeeded ✅ for PR #${{ github.event.pull_request.number }}\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notify Discord - Build Failed
         if: failure()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-            -d "{\"content\":\":x: ❌ Build failed ❌ for PR #${{ github.event.pull_request.number }}\"}" \
+            -d "{\"content\":\":x: Build failed ❌ for PR #${{ github.event.pull_request.number }}\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
