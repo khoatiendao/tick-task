@@ -127,7 +127,12 @@ const taskListService = {
     async deleteOne(_id) {
         const result = await Model.taskListModel.findByIdAndDelete(_id).exec();
         return result
-    }
+    },
+
+    async deleteAll() {
+        const result = await Model.taskListModel.deleteAll();
+        return result;
+    },
 }
 
 module.exports = taskListService;
