@@ -1,10 +1,9 @@
-name: Develop Github Action
+name: Github Action (Branch Develop)
 
 on:
-  pull_request:
+  push:  
     branches:
       - develop
-    types: [opened, synchronize, reopened]
 
 jobs:
   docker-build:
@@ -14,7 +13,7 @@ jobs:
       - name: Notify Discord - Build Started
         run: |
           curl -X POST -H "Content-Type: application/json" \
-            -d "{\"content\":\":rocket: Build started :rocket for PR #${{ github.event.pull_request.number }} by ${{ github.actor }}\"}" \
+            -d "{\"content\":\":rocket: Build started :rocket: for PR #${{ github.event.pull_request.number }} by ${{ github.actor }}\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Checkout code
@@ -31,11 +30,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/your-image-name:pr-${{ github.event.pull_request.number }} .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/tick-task:pr-${{ github.event.pull_request.number }} .
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/your-image-name:pr-${{ github.event.pull_request.number }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/tick-task:pr-${{ github.event.pull_request.number }}
 
       - name: Notify Discord - Build Success
         if: success()
