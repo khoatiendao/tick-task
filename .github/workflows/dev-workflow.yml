@@ -1,7 +1,7 @@
 name: Github Action (Branch Develop)
 
 on:
-  push:  
+  push:
     branches:
       - develop
 
@@ -48,4 +48,38 @@ jobs:
         run: |
           curl -X POST -H "Content-Type: application/json" \
             -d "{\"content\":\":x: Build failed ❌ for PR #${{ github.event.pull_request.number }}\"}" \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
+  
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run tests (optional)
+        run: echo "run your tests here..."
+
+      - name: Notify Discord - Deploy Started
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+            -d "{\"content\":\":rocket: Deploy :rocket: started on \`dev\`\"}" \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Trigger Render Deploy
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+
+      - name: Notify Discord - Deploy Success
+        if: success()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+            -d "{\"content\":\":white_check_mark: Render deploy success!\"}" \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Notify Discord - Deploy Failed
+        if: failure()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+            -d "{\"content\":\":x: Render deploy failed!\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
