@@ -3,7 +3,7 @@ name: Build Docker Image on PR to dev
 on:
   pull_request:
     branches:
-      - dev
+      - develop
     types: [opened, synchronize, reopened]
 
 jobs:
