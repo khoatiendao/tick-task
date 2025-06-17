@@ -24,6 +24,10 @@ const options = {
         {
           url: "http://localhost:8443/",
           description: "Local Server"
+        },
+        {
+          url: "https://tick-task-pr-dev.onrender.com/",
+          description: "Deploy Server"
         }
       ]
     },
