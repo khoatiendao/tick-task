@@ -64,6 +64,10 @@ app.get("/", (req, res) => {
     res.send("Welcome to my To-do App")
 })
 
+app.get("/healthz", (req, res) => {
+    res.status(200).send('ok')
+})
+
 // Use Socket
 // const io = socketIo(io)
 // io.on('connection', (socket) => {
