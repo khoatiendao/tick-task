@@ -57,9 +57,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Run tests (optional)
-        run: echo "run your tests here..."
-
       - name: Notify Discord - Deploy Started
         run: |
           curl -X POST -H "Content-Type: application/json" \
@@ -69,6 +66,24 @@ jobs:
       - name: Trigger Render Deploy
         run: |
           curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+        
+      - name: Wait and Check Health
+        run: |
+          echo "Waiting for app to start..."
+          for i in {1..30}; do
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.HTTP_HEALTHCHEZ }})
+
+          if [ "$STATUS" -eq 200 ]; then
+          echo "✅ Health check passed"
+          exit 0
+          else
+            echo "❌ Health check failed (HTTP $STATUS), retrying..."
+            sleep 10
+          fi
+          done
+
+          echo "🚨 App failed health check after timeout"
+          exit 1
 
       - name: Notify Discord - Deploy Success
         if: success()
