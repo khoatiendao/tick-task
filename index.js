@@ -1,26 +1,18 @@
 const express = require('express')
 const app = express();
 const bodyParser = require('body-parser')
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 require('dotenv').config()
 const PORT = process.env.PORT || 9443;
-const mongooseConnected = require('./src/config/configDatabase');
-const boardRoutes = require('./src/routes/boardRoutes')
-const departmentRoutes = require('./src/routes/departmentRoutes');
-const userRoutes = require('./src/routes/userRoutes');
-const positionRoutes = require('./src/routes/positionRoutes')
-const memberRoutes = require('./src/routes/memberRoutes')
-const boardListRoutes = require('./src/routes/boardListRoutes')
-const taskListRoutes = require('./src/routes/taskListRoutes')
-const taskAssignmentRoutes = require('./src/routes/taskAssignmentRoutes')
 const {swaggerUI, specsDoc} = require('./src/utils/doc/apiDoc')
-const userCountRoutes = require('./src/routes/SA routes/userCountRoutes')
-const taskCountRoutes = require('./src/routes/SA routes/taskCountRoutes')
-const cronRoutes = require('./src/routes/cronRoutes');
-const errorHandle = require('./src/middleware/errorHandle');
 const logger = require('./src/middleware/logHandle');
 // const socketIo = require('socket.io')
 
-
+app.use(helmet());
+app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
@@ -33,40 +25,48 @@ app.use(function(req, res, next) {
     next()
 });
 
+// Rate limit
+app.use(rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 phút
+  max: 1000
+}));
+
 app.use(logger)
 // Api document
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specsDoc));
 
-// Api routes
-app.use("/api/v1/department", departmentRoutes)
-app.use("/api/v1/board", boardRoutes)
-app.use("/api/v1/boardList", boardListRoutes)
-app.use("/api/v1/taskList", taskListRoutes)
-app.use("/api/v1/taskAssignment", taskAssignmentRoutes)
-app.use("/api/v1/user", userRoutes)
-app.use("/api/v1/position", positionRoutes)
-app.use("/api/v1/member", memberRoutes)
+// Routing: map prefix route → service URL
+const routes = {
+  "/api/v1/user": "http://localhost:3001",
+  "/api/v1/taskList": "http://localhost:3002",
+  "/api/v1/department": "http://localhost:3003",
+  "/api/v1/board": "http://localhost:3004",
+  "/api/v1/boardList": "http://localhost:3005",
+  "/api/v1/position": "http://localhost:3006",
+  "/api/v1/member": "http://localhost:3007",
+  "/api/v1/taskAssignment": "http://localhost:3008",
+  "/api/v1/admin/dashboard/user": "http://localhost:3010",
+  "/api/v1/admin/dashboard/task": "http://localhost:3011",
+  "/api/v1/cron": "http://localhost:3012",
+};
 
-// routes Super Admin
-app.use("/api/v1/admin/dashboard/user", userCountRoutes)
-app.use("/api/v1/admin/dashboard/task", taskCountRoutes)
+// Apply proxy middleware cho từng prefix
+Object.entries(routes).forEach(([path, target]) => {
+  app.use(path, createProxyMiddleware({
+    target,
+    changeOrigin: true,
+    pathRewrite: (pathReq) => pathReq.replace(path, '') || '/', // giữ route gốc trong service
+    logLevel: 'silent',
+  }));
+});
 
-// cron bot routes
-app.use("/api/v1/cron", cronRoutes)
-
-app.use(errorHandle)
+// Health check
+app.get("/", (req, res) => res.send("🌐 API Gateway is running!"));
+app.get("/healthz", (req, res) => res.status(200).send("ok"));
 
 app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`)
-})
-
-app.get("/", (req, res) => {
-    res.send("Welcome to my To-do App")
-})
-
-app.get("/healthz", (req, res) => {
-    res.status(200).send('ok')
-})
+  console.log(`🚀 API Gateway is running on port ${PORT}`);
+});
 
 // Use Socket
 // const io = socketIo(io)
